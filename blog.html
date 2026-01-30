@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | Rohith Donthula</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Navigation -->
+  <header class="header">
+    <div class="container nav-container">
+      <div class="logo">RD<span>SEC</span></div>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#certifications">Certs</a>
+        <a href="blog.html" class="active">Blog</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <button id="theme-btn" class="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">🌙 Dark</button>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+  
+  <!-- Blog Hero -->
+  <section class="blog-hero">
+    <div class="container">
+      <p class="eyebrow">Security Insights & Research</p>
+      <h1>Security Blog</h1>
+      <p class="hero-subtitle">Thoughts on cybersecurity, threat research, cloud security, and security engineering.</p>
+    </div>
+  </section>
+
+  <!-- Blog Content -->
+  <section class="section">
+    <div class="container blog-layout">
+      
+      <!-- Posts -->
+      <div class="blog-posts-area">
+        <div id="posts-container" class="blog-posts">
+          <p class="no-posts">No posts yet.</p>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="blog-sidebar">
+        
+        <!-- Login Button (Show by default) -->
+        <div id="login-box" class="login-box">
+          <button id="admin-btn" class="btn primary" style="width: 100%; cursor: pointer; margin: 0;">Admin Login</button>
+        </div>
+
+        <!-- Write Post (Hidden) -->
+        <div id="write-box" class="write-box hidden">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h3 style="margin: 0;">Write a Post</h3>
+            <button id="logout-btn" class="logout-btn">Logout</button>
+          </div>
+          
+          <form id="post-form" class="blog-form">
+            <label>
+              Title
+              <input type="text" id="post-title" placeholder="Post title..." required />
+            </label>
+
+            <label>
+              Category
+              <select id="post-category" required>
+                <option value="">Select category</option>
+                <option value="Threat Intelligence">Threat Intelligence</option>
+                <option value="Cloud Security">Cloud Security</option>
+                <option value="SOC Operations">SOC Operations</option>
+                <option value="Incident Response">Incident Response</option>
+                <option value="Risk Management">Risk Management</option>
+                <option value="Research">Research</option>
+                <option value="Career">Career</option>
+                <option value="General">General</option>
+              </select>
+            </label>
+
+            <label>
+              Content
+              <textarea id="post-content" placeholder="Write your post..." required></textarea>
+            </label>
+
+            <button type="submit" class="btn primary" style="width: 100%;">Publish</button>
+          </form>
+        </div>
+
+        <!-- Change Password (Hidden) -->
+        <div id="password-box" class="password-box hidden">
+          <h4>Change Password</h4>
+          <form id="password-form" class="blog-form">
+            <label>
+              Current Password
+              <input type="password" id="current-pwd" placeholder="Enter current password" required />
+            </label>
+
+            <label>
+              New Password
+              <input type="password" id="new-pwd" placeholder="Enter new password" required />
+            </label>
+
+            <label>
+              Confirm Password
+              <input type="password" id="confirm-pwd" placeholder="Confirm new password" required />
+            </label>
+
+            <button type="submit" class="btn primary" style="width: 100%;">Update</button>
+          </form>
+        </div>
+
+        <!-- Info -->
+        <div class="blog-info-card">
+          <h4>About This Blog</h4>
+          <p>Welcome to my security blog. Here I share insights on cybersecurity trends, cloud security practices, and lessons from security research.</p>
+        </div>
+
+        <!-- Categories -->
+        <div class="blog-categories-card">
+          <h4>Categories</h4>
+          <ul id="categories-list" class="category-list">
+            <li class="no-categories">No categories yet</li>
+          </ul>
+        </div>
+
+      </aside>
+
+    </div>
+  </section>
+
+  <!-- Login Modal -->
+  <div id="modal" class="login-modal hidden">
+    <div class="login-box-modal">
+      <button id="close-btn" class="close-modal">✕</button>
+      <h3>Admin Access</h3>
+      <form id="login-form">
+        <input type="password" id="pwd-input" placeholder="Enter password" required />
+        <button type="submit" class="btn primary" style="width: 100%;">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <p>© 2026 Rohith Donthula. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="https://github.com/Donthularohith" target="_blank" rel="noopener">GitHub</a>
+        <a href="http://www.linkedin.com/in/rohith-donthula" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:donthula.rohith22@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="blog.js"></script>
+  <script src="theme.js"></script>
+
+</body>
+</html>
