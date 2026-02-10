@@ -5,22 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rohith Donthula | Cybersecurity Specialist</title>
   <meta name="description" content="Rohith Donthula – Cybersecurity specialist with experience in incident response, risk management, penetration testing, and cloud security. Open to internships and full-time security roles." />
+  <link rel="icon" type="image/svg+xml" href="shield-icon.svg" />
+  <link rel="shortcut icon" type="image/svg+xml" href="shield-icon.svg" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <div id="loader-overlay">
-        <div class="loader-inner">
-          <div class="loader-logo">RD<span>SEC</span></div>
-          <div class="loader-bar">
-            <div class="loader-bar-fill"></div>
-          </div>
-          <p class="loader-text">Initializing security modules...</p>
+  <div id="loader-overlay" aria-label="Loading portfolio" role="dialog" aria-live="polite">
+    <div class="loader-terminal">
+      <div class="loader-header">
+        <div class="loader-dots">
+          <span class="loader-dot loader-dot--red"></span>
+          <span class="loader-dot loader-dot--amber"></span>
+          <span class="loader-dot loader-dot--green"></span>
         </div>
+        <span class="loader-title">rd-sec://boot</span>
+        <button id="loader-skip" class="loader-skip-btn" type="button">Skip intro</button>
       </div>
-      
+      <div class="loader-body">
+        <!-- Lines are injected by script.js -->
+      </div>
+    </div>
+  </div>
+  
   <!-- Navigation -->
   <header class="header" id="home">
     <div class="container nav-container">
@@ -31,6 +40,7 @@
         <a href="#experience">Experience</a>
         <a href="#services">Services</a>
         <a href="#projects">Projects</a>
+        <a href="#achievements">Highlights</a>
         <a href="#skills">Skills</a>
         <a href="#certifications">Certs</a>
         <a href="#learning">Learning</a>
@@ -48,9 +58,9 @@
         <!-- Left: text -->
         <div class="hero-text">
           <p class="hero-kicker">CYBERSECURITY | RISK | CLOUD & OFFENSIVE SECURITY</p>
-          <h1>
-            Rohith Donthula<br />
-            <span>Cybersecurity Specialist</span>
+          <h1 class="hero-title">
+            <span id="hero-name-typing" class="hero-typing hero-typing--primary"></span><br />
+            <span id="hero-role-typing" class="hero-typing hero-typing--secondary"></span>
           </h1>
           <p class="hero-subtitle">
             Master's student in Cybersecurity at Yeshiva University (Dec 2025), with hands-on experience in incident response,
@@ -236,7 +246,7 @@
               <li>Conducted internal security audits and identified compliance risks related to Critical Infrastructure Protection (CIP).</li>
               <li>Designed and deployed a Linux-based security firewall, preventing approximately 50% of backdoor attacks.</li>
               <li>Configured honeypots and IDS to block around 80% of external web attacks through real-time threat analysis.</li>
-              <li>Assisted with patch management processes to ensure timely remediation of vulnerabilities.</li>
+              <li>Assisted with pa tch management processes to ensure timely remediation of vulnerabilities.</li>
             </ul>
           </div>
           <div class="experience-metrics">
@@ -400,6 +410,32 @@
         <a href="https://github.com/Donthularohith" target="_blank" rel="noopener" class="card-link">View Notebook</a>
       </article>
 
+    </div>
+  </section>
+
+  <!-- Achievements -->
+  <section id="achievements" class="section">
+    <div class="container section-header">
+      <p class="eyebrow">Highlights</p>
+      <h2>Achievements & Recognition</h2>
+    </div>
+    <div class="container cards-grid">
+      <article class="card">
+        <h3>2nd Place – Capture the Flag (CTF)</h3>
+        <p class="meta">ISACA &amp; Yeshiva University</p>
+        <p>
+          Placed second in a Capture the Flag competition hosted by ISACA and Yeshiva University, demonstrating penetration
+          testing, vulnerability exploitation, and real-time incident response skills under pressure.
+        </p>
+      </article>
+      <article class="card">
+        <h3>Research Grant – ZTEV Project</h3>
+        <p class="meta">Zero Trust Electronic Voting System (ZTEV)</p>
+        <p>
+          Successfully secured a research grant to design and implement a Zero Trust Electronic Voting System, strengthening
+          election security for BYOD and limited-monitoring environments through MFA, encryption, and Zero Trust controls.
+        </p>
+      </article>
     </div>
   </section>
 
