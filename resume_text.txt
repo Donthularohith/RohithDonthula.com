@@ -1,0 +1,95 @@
+Rohith Donthula
+donthula.rohith22@gmail.com | (551) 325-9945 | Jersey City, NJ,07306| LinkedIn
+
+EDUCATION
+Yeshiva University, Katz School of Science and Health, New York, NY
+Dec 2025
+Master of Science in Cybersecurity
+Relevant Courses: Cybersecurity Foundations, Architecture of Secure Operating Systems, Network, Data and Communication
+Security, Cybercrime, Cyberwar, and Threat Actors, Cybersecurity Audit, Assessment and Training
+Indian Institute of Information Technology (IIIT)
+May 2024
+Post Graduate Diploma in Cybersecurity- Bangalore, India
+Jawaharlal Nehru Technological University Hyderabad
+July 2023
+Malla Reddy Institute of Technology - Hyderabad, India
+Bachelor of Technology in Computer Science and Engineering
+CERTIFICATIONS
+CompTIA Security+
+SOC Hands-On Lab, Cyberbit, Yeshiva University
+Google Cybersecurity Professional Certificate, Coursera
+SKILLS
+Security & Risk Management: Incident Response, Risk Assessment, Security Compliance (NIST, SOC2, MITRE
+ATT&CK, CIP), Vendor Risk Management, Security Audits
+Security Tools & Technologies: SIEM (Splunk, ELK), IDS/IPS, Firewalls, Vulnerability Scanning (Nessus, OpenVAS),
+Penetration Testing (Burp Suite, Metasploit, OWASP ZAP)
+Networking & Security Protocols: TCP/IP, DNS, VPN, Firewalls, Zero Trust Security, TLS/SSL
+Programming & Scripting: Python, Golang, Java, C++, PowerShell, Bash, SQL, TypeScript
+Cloud & DevSecOps: AWS Security, Docker, Kubernetes, Terraform, CI/CD Security, Software Cryptographic Signing
+Tools & Platforms: Angular, Ansible, Git, Configuration Management Tools (Chef, Puppet, Salt)
+PROFESSIONAL EXPERIENCE
+Junior IT Support Associate, Foundever
+•
+•
+•
+•
+•
+
+Oct 2023 – Jun 2024
+Provided technical support and troubleshooting for hardware, software, and network-related issues.
+Assisted in system administration, including user account management and Active Directory configurations.
+Monitored and maintained IT security policies to ensure compliance with industry best practices.
+Supported the deployment and configuration of security tools such as antivirus software, firewalls, and endpoint protection
+solutions.
+Resolved IT service tickets efficiently, improving response times and user satisfaction.
+
+Virtual Cybersecurity Industry Intern, Security Industry Simulated Training & Mentoring Research, Virtual
+Jun 2022 – Nov 2022
+• Conducted vendor risk assessments to evaluate third-party security controls and compliance with NIST and SOC2
+frameworks.
+• Performed internal vulnerability assessments and penetration testing, identifying and remediating critical security
+gaps.
+• Enhanced security measures by implementing SIEM-based threat detection, leading to a 30% increase in threat
+detection and a 50% reduction in response time.
+• Assisted in incident response activities, analyzing security alerts and preparing risk management reports.
+• Collaborated with IT teams to evaluate security product recommendations for enterprise infrastructure.
+Intern, Remark Skills, Hyderabad, India
+May 2021 – July 2021
+• Conducted internal security audits and identified compliance risks related to Critical Infrastructure Protection
+(CIP).
+• Designed and deployed a Linux-based security firewall, preventing 50% of backdoor attacks.
+• Configured honeypots and network intrusion detection systems (IDS) to block 80% of external web attacks
+through real-time threat analysis.
+• Assisted in patch management processes, ensuring timely remediation of security vulnerabilities.
+
+PROJECTS
+Advanced Certificate Program in Cyber Security from IIIT Bangalore
+Sep 2023 – May 2024
+Zero Trust Electronic Voting System(ZTEV)
+• Developed and deployed a Zero Trust Electronic Voting System (ZTEV) to mitigate security risks from BYOD and
+limited device monitoring.
+• Integrated multi-factor authentication (MFA), blockchain audit logs, and AES-256 encryption to secure electronic
+voting processes.
+• Configured Snort IDS for real-time threat monitoring and implemented Zero Trust Network Access (ZTNA)
+policies.
+Penetration Testing & Threat Intelligence Capstone – Team Lead
+• Led a team in conducting penetration tests on enterprise applications, identifying vulnerabilities and implementing
+remediation strategies.
+• Developed detailed risk assessment reports based on findings from MITRE ATT&CK framework analysis.
+Capstone Project- Team Lead
+July 2023
+PMRSS: -Preserving Medical Record Searching Scheme for Intelligent Diagnosis in IoT Healthcare
+• Led a team of 3 members to develop a product in a short timeframe, Developed Privacy-preserving Medical Record
+Searching Scheme for Intelligent Diagnosis in IoT Healthcare in strict compliance with HIPAA requirements, ensuring
+an untraceable use of medical data.
+Mini Project - Team Lead
+Jan 2023
+FBI Crime Analysis and Prediction using Machine Learning
+• Improved project organization in an FBI Crime Analysis and Prediction project using Machine Learning.
+• Developed models achieving 90% accuracy in predicting crime rates, enabling proactive responses to high-crime areas.
+ACHIEVEMENTS
+• 2nd Place – Capture the Flag (CTF) Competition hosted by ISACA and Yeshiva University, demonstrating
+penetration testing, vulnerability exploitation, and security problem-solving skills under pressure.
+• Successfully secured a research grant for the Zero Trust Electronic Voting System (ZTEV) project.
+
+
