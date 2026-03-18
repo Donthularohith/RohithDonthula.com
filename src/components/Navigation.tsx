@@ -4,9 +4,12 @@ import { useState, useEffect } from "react";
 
 const navItems = [
     { label: "HOME", href: "#home" },
+    { label: "IMPACT", href: "#impact" },
     { label: "ABOUT", href: "#about" },
+    { label: "SKILLS", href: "#skills" },
     { label: "EXPERIENCE", href: "#experience" },
     { label: "PROJECTS", href: "#projects" },
+    { label: "EDUCATION", href: "#education" },
     { label: "CONTACT", href: "#contact" },
 ];
 
@@ -44,7 +47,7 @@ export default function Navigation() {
     };
 
     return (
-        <nav className="fixed right-6 sm:right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-6">
+        <nav className="fixed right-6 sm:right-8 top-1/2 -translate-y-1/2 z-50 flex-col gap-5 hidden md:flex">
             {navItems.map((item, index) => {
                 const isActive = activeSection === item.href.replace("#", "");
                 return (

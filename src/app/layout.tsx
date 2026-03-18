@@ -18,9 +18,20 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Rohith Donthula | Cybersecurity Specialist",
+  title: "Rohith Donthula | Cyber Security Analyst",
   description:
-    "Rohith Donthula – Cybersecurity specialist with experience in incident response, risk management, penetration testing, and cloud security. Open to internships and full-time security roles.",
+    "Rohith Donthula — Cyber Security Analyst with 3+ years of experience in offensive security testing, detection engineering, and incident response across healthcare (Cerner) and financial (Capgemini) infrastructures. CompTIA Security+ CE, CySA+ certified. Pursuing OSCP & CISSP.",
+  keywords: [
+    "cybersecurity analyst",
+    "penetration testing",
+    "incident response",
+    "SIEM",
+    "Splunk",
+    "MITRE ATT&CK",
+    "cloud security",
+    "detection engineering",
+    "Rohith Donthula",
+  ],
   icons: {
     icon: "/shield-icon.svg",
   },

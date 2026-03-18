@@ -299,6 +299,15 @@ body.terminal-view .neon-glow {
   text-shadow: var(--glow);
 }
 
+/* CompTIA Logo - Black in regular mode, inverted (white) in hacker mode */
+.comptia-logo {
+  filter: brightness(0);
+}
+
+body.terminal-view .comptia-logo {
+  filter: brightness(0) invert(1);
+}
+
 /* ═══════════════════════════════════════════════
    BASH TERMINAL CARD
    ═══════════════════════════════════════════════ */
@@ -399,8 +408,245 @@ body:not(.terminal-view) .terminal-card-header {
 }
 
 /* ═══════════════════════════════════════════════
-   RESPONSIVE
+   IMPACT METRICS
    ═══════════════════════════════════════════════ */
+
+.impact-metric {
+  text-align: center;
+  padding: 16px 8px;
+}
+
+.impact-metric-value {
+  font-size: 3rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 12px;
+  letter-spacing: -0.04em;
+}
+
+.impact-metric-bar {
+  width: 100%;
+  height: 4px;
+  background-color: var(--border);
+  border-radius: 2px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+@keyframes fillBar {
+  from { width: 0%; }
+  to { width: var(--fill-width); }
+}
+
+.impact-metric-fill {
+  height: 100%;
+  background-color: var(--accent);
+  border-radius: 2px;
+  width: 0%;
+  animation: fillBar 2s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+body.terminal-view .impact-metric-fill {
+  box-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
+}
+
+.impact-metric-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.impact-metric-detail {
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════
+   SKILL CLUSTERS
+   ═══════════════════════════════════════════════ */
+
+.skill-cluster {
+  position: relative;
+}
+
+.skill-cluster-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.skill-cluster-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.skill-tag {
+  transition: all 0.3s ease;
+  border: 1px solid var(--border) !important;
+}
+
+.skill-tag:hover {
+  background-color: var(--accent) !important;
+  color: var(--bg) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+body.terminal-view .skill-tag:hover {
+  box-shadow: 0 4px 12px rgba(0, 255, 65, 0.3), 0 0 20px rgba(0, 255, 65, 0.1);
+}
+
+/* ═══════════════════════════════════════════════
+   EXPERIENCE TIMELINE
+   ═══════════════════════════════════════════════ */
+
+.timeline-rail {
+  position: relative;
+  padding-left: 32px;
+}
+
+.timeline-rail::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 24px;
+  bottom: 24px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent), var(--border) 80%, transparent);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -32px;
+  top: 24px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--bg-elevated);
+  border: 2px solid var(--border);
+  z-index: 2;
+  transform: translateX(0px);
+}
+
+.timeline-dot-active {
+  border-color: var(--accent);
+  background-color: var(--accent);
+}
+
+.timeline-dot-ping {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  animation: ping-ring 2s ease-out infinite;
+}
+
+@keyframes ping-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.timeline-badge-current {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background-color: var(--accent);
+  color: var(--bg);
+  animation: pulse-badge 3s ease-in-out infinite;
+}
+
+@keyframes pulse-badge {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ═══════════════════════════════════════════════
+   CERTIFICATION ITEMS
+   ═══════════════════════════════════════════════ */
+
+.cert-item {
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.cert-item:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.1);
+}
+
+body.terminal-view .cert-item:hover {
+  box-shadow: 0 4px 16px rgba(0, 255, 65, 0.15);
+}
+
+.cert-item-status {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.cert-active {
+  background-color: rgba(40, 200, 64, 0.15);
+  color: #28c840;
+  border: 1px solid rgba(40, 200, 64, 0.3);
+}
+
+.cert-pursuing {
+  background-color: rgba(254, 188, 46, 0.15);
+  color: #febc2e;
+  border: 1px solid rgba(254, 188, 46, 0.3);
+}
+
+body.terminal-view .cert-active {
+  background-color: rgba(0, 255, 65, 0.15);
+  color: #00FF41;
+  border-color: rgba(0, 255, 65, 0.3);
+}
+
+body.terminal-view .cert-pursuing {
+  background-color: rgba(255, 200, 0, 0.15);
+  color: #ffc800;
+  border-color: rgba(255, 200, 0, 0.3);
+}
 
 /* ═══════════════════════════════════════════════
    HOVER ACCENT COLORS
@@ -422,14 +668,6 @@ body.terminal-view a:hover {
 button:hover,
 [role="button"]:hover {
   transition: all 0.3s ease;
-}
-
-/* ═══════════════════════════════════════════════
-   SMOOTH SCROLLING
-   ═══════════════════════════════════════════════ */
-
-html {
-  scroll-behavior: smooth;
 }
 
 /* ═══════════════════════════════════════════════
@@ -510,6 +748,26 @@ html {
    RESPONSIVE
    ═══════════════════════════════════════════════ */
 
+@media (max-width: 640px) {
+  .impact-metric-value {
+    font-size: 2.2rem;
+  }
+
+  .timeline-rail {
+    padding-left: 24px;
+  }
+
+  .timeline-rail::before {
+    left: 5px;
+  }
+
+  .timeline-dot {
+    width: 12px;
+    height: 12px;
+    left: -24px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .antigravity {
     animation: none !important;
@@ -523,6 +781,19 @@ html {
   .cursor {
     animation: none;
     opacity: 1;
+  }
+
+  .impact-metric-fill {
+    animation: none;
+    width: var(--fill-width);
+  }
+
+  .timeline-dot-ping {
+    animation: none;
+  }
+
+  .timeline-badge-current {
+    animation: none;
   }
 }
 
