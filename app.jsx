@@ -541,6 +541,11 @@ function Contact() {
                   <span style={{ color: "var(--ink)" }}>/Donthularohith</span>
                   <span className="mono" style={{ color: "var(--accent)", marginLeft: "auto" }}>→</span>
                 </a>
+                <a href="public/resume.pdf" target="_blank" rel="noreferrer" download className="contact-row">
+                  <span className="mono" style={{ color: "var(--ink-mute)", fontSize: 11, letterSpacing: "0.16em", width: 90 }}>CV</span>
+                  <span style={{ color: "var(--ink)" }}>Download resume.pdf</span>
+                  <span className="mono" style={{ color: "var(--accent)", marginLeft: "auto" }}>↓</span>
+                </a>
               </div>
             </Panel>
           </Reveal>
@@ -553,11 +558,6 @@ function Contact() {
                   <span className="dot" />
                   <span className="mono" style={{ fontSize: 14, color: "var(--ink)" }}>OPEN TO ROLES</span>
                 </div>
-              </div>
-              <div className="hr" />
-              <div>
-                <div className="mono" style={{ fontSize: 10, letterSpacing: "0.2em", color: "var(--ink-mute)" }}>AVAILABLE</div>
-                <div className="mono" style={{ marginTop: 8, fontSize: 22, color: "var(--accent)", letterSpacing: "-0.01em" }}>DEC · 2025</div>
               </div>
               <div className="hr" />
               <div>
