@@ -22,6 +22,10 @@
   --amber-soft:    oklch(0.78 0.16 80 / 0.18);
   --signal:        oklch(0.78 0.18 145);  /* signal / status green */
   --signal-soft:   oklch(0.78 0.18 145 / 0.18);
+  --blue:          oklch(0.64 0.19 255);  /* blue team · defense */
+  --blue-soft:     oklch(0.64 0.19 255 / 0.16);
+  --purple:        oklch(0.62 0.19 322);  /* purple team · red+blue fused */
+  --purple-soft:   oklch(0.62 0.19 322 / 0.18);
 
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   --font-display: 'Space Grotesk', system-ui, sans-serif;
@@ -295,7 +299,7 @@ body[data-mode="recruiter"] .panel-h {
   padding: 6px 10px;
   border: 2px solid currentColor;
   color: var(--accent);
-  transform: rotate(-4deg);
+  transform: rotate(var(--stamp-angle, -4deg));
   border-radius: 2px;
   opacity: 0.92;
 }
@@ -436,7 +440,122 @@ body[data-cursor="on"] a, body[data-cursor="on"] button, body[data-cursor="on"] 
 /* Hide cursor visual on touch */
 @media (pointer: coarse) {
   body[data-cursor="on"] { cursor: auto; }
-  #cursor-ring, #cursor-dot { display: none !important; }
+  #cursor-ring, #cursor-ring-blue, #cursor-dot { display: none !important; }
+}
+
+/* ── Glitch heading — red/blue channel-split settling into place ── */
+.glitch-heading { position: relative; }
+.glitch-heading.play {
+  animation: glitchShadow 520ms steps(4, end) 1;
+}
+@keyframes glitchShadow {
+  0%   { text-shadow: -3px 0 var(--accent), 3px 0 var(--blue);  transform: translateX(-2px); }
+  25%  { text-shadow:  3px 0 var(--accent), -3px 0 var(--blue); transform: translateX(2px); }
+  50%  { text-shadow: -2px 0 var(--accent),  2px 0 var(--blue); transform: translateX(-1px); }
+  75%  { text-shadow:  1px 0 var(--purple), -1px 0 var(--blue); transform: translateX(1px); }
+  100% { text-shadow: none; transform: translateX(0); }
+}
+
+/* ── Redacted paragraph — declassifies (un-censors) on scroll ── */
+.redacted { position: relative; }
+.redacted::after {
+  content: "";
+  position: absolute; inset: -2px -6px;
+  background: var(--bg-deep);
+  border-radius: 2px;
+  transform-origin: right center;
+  transform: scaleX(1);
+  transition: transform 700ms cubic-bezier(.65,0,.35,1);
+  pointer-events: none;
+}
+.redacted.declassified::after { transform: scaleX(0); }
+
+/* ── Ambient particle field (canvas, behind content) ── */
+.particle-field {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* ── Boot sequence overlay ── */
+.boot-overlay {
+  position: fixed; inset: 0; z-index: 20000;
+  background: var(--bg-deep);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 24px;
+  opacity: 1;
+  transition: opacity 420ms ease;
+}
+.boot-overlay.is-hidden { opacity: 0; pointer-events: none; }
+.boot-body {
+  width: min(560px, 88vw);
+  font-size: 13px;
+  line-height: 1.9;
+  min-height: 210px;
+}
+.boot-line { letter-spacing: 0.02em; }
+.boot-line.tone-red    { color: var(--accent); }
+.boot-line.tone-blue   { color: var(--blue); }
+.boot-line.tone-purple { color: var(--purple); }
+.boot-line.tone-mute   { color: var(--ink-mute); }
+.boot-line.tone-signal { color: var(--signal); font-weight: 700; }
+.boot-cursor {
+  display: inline-block; width: 8px; height: 15px;
+  background: var(--purple);
+  animation: blink 1s steps(1,end) infinite;
+  vertical-align: -2px;
+}
+.boot-skip {
+  background: transparent;
+  border: 1px solid var(--rule-strong);
+  color: var(--ink-mute);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color 180ms, border-color 180ms;
+}
+.boot-skip:hover { color: var(--ink); border-color: var(--ink-mute); }
+
+/* ── Network graph hub pulse (purple fusion core) ── */
+.hub-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hubPulse 2.6s ease-in-out infinite;
+}
+@keyframes hubPulse {
+  0%, 100% { opacity: 0.85; filter: drop-shadow(0 0 0px var(--purple)); }
+  50%      { opacity: 1;    filter: drop-shadow(0 0 7px var(--purple)); }
+}
+
+/* ── Stamp slam-in on reveal ── */
+.reveal.in .stamp {
+  animation: stampSlam 460ms cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes stampSlam {
+  0%   { opacity: 0; transform: scale(2.4) rotate(-18deg); }
+  60%  { opacity: 1; }
+  100% { opacity: 0.92; transform: scale(1) rotate(var(--stamp-angle, -4deg)); }
+}
+
+/* ── Tile tilt-in — every card/tile lifts from flat 2D into its 3D resting
+   position as its section reveals. Any element carrying .tilt-in inside a
+   .reveal wrapper picks this up automatically; add animation-delay inline
+   for staggering. Parent containers need `perspective` for real depth. ── */
+.tilt-in { opacity: 0; transform: rotateX(-18deg) translateY(14px); }
+.reveal.in .tilt-in {
+  animation: tiltIn 640ms cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes tiltIn {
+  0%   { opacity: 0; transform: rotateX(-18deg) translateY(14px); }
+  100% { opacity: 1; transform: rotateX(0deg) translateY(0); }
+}
+.proj-list, .exp-list, .cert-timeline, .mitre-grid,
+.about-side, .hero-creds, .dossier-strip {
+  perspective: 1000px;
 }
 
 /* Reduce motion */
@@ -444,4 +563,12 @@ body[data-cursor="on"] a, body[data-cursor="on"] button, body[data-cursor="on"] 
   .reveal { opacity: 1; transform: none; transition: none; }
   .marquee-track { animation: none; }
   .dot::after { animation: none; }
+  .glitch-heading.play { animation: none; }
+  .redacted::after { transition: none; }
+  .reveal.in .stamp { animation: none; }
+  .tilt-in { opacity: 1; transform: none; }
+  .reveal.in .tilt-in { animation: none; }
+  .boot-overlay { display: none; }
+  .particle-field { display: none; }
+  .hub-pulse { animation: none; }
 }

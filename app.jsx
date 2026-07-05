@@ -1,27 +1,13 @@
 /* eslint-disable no-undef */
-const { useState, useEffect, useRef } = React;
 
 function App() {
-  // Tweaks
-  const [tweaks, setTweaks] = useTweaks({
-    "mode": "dossier",        // dossier | terminal | recruiter
-    "density": "roomy",        // compact | roomy | airy
-    "background": "grid",      // grid | grain | scan | none
-    "cursor": true,
-    "scanlines": false,
-  });
-
-  // Sync to body data-attributes
-  useEffect(() => {
-    document.body.dataset.mode = tweaks.mode;
-    document.body.dataset.density = tweaks.density;
-    document.body.dataset.bg = tweaks.background;
-    document.body.dataset.cursor = tweaks.cursor ? "on" : "off";
-  }, [tweaks]);
-
   return (
     <>
-      <CustomCursor enabled={tweaks.cursor} />
+      <ParticleField />
+      <BootSequence />
+      <CustomCursor enabled={true} />
+      <SectionDots />
+      <CommandPalette />
       <ClassifiedHeader />
       <Hero />
       <BriefMarquee />
@@ -30,51 +16,10 @@ function App() {
       <BriefMarquee variant="b" />
       <ProjectsSection />
       <CapabilitySection />
-      <CertsAndTestimonials />
-      <BriefMarquee variant="c" />
-      <NewsSection />
+      <CertsSection />
+      <TerminalAccessSection />
       <Contact />
       <FooterStrip />
-      <TweaksPanel title="Tweaks">
-        <TweakSection title="Mode">
-          <TweakRadio
-            label="Visual mode"
-            value={tweaks.mode}
-            onChange={v => setTweaks({ mode: v })}
-            options={[
-              { label: "Dossier", value: "dossier" },
-              { label: "Terminal", value: "terminal" },
-              { label: "Recruiter", value: "recruiter" },
-            ]}
-          />
-        </TweakSection>
-        <TweakSection title="Layout">
-          <TweakRadio
-            label="Density"
-            value={tweaks.density}
-            onChange={v => setTweaks({ density: v })}
-            options={[
-              { label: "Compact", value: "compact" },
-              { label: "Roomy", value: "roomy" },
-              { label: "Airy", value: "airy" },
-            ]}
-          />
-          <TweakRadio
-            label="Background"
-            value={tweaks.background}
-            onChange={v => setTweaks({ background: v })}
-            options={[
-              { label: "Grid", value: "grid" },
-              { label: "Grain", value: "grain" },
-              { label: "Scan", value: "scan" },
-              { label: "None", value: "none" },
-            ]}
-          />
-        </TweakSection>
-        <TweakSection title="Effects">
-          <TweakToggle label="Custom cursor" value={tweaks.cursor} onChange={v => setTweaks({ cursor: v })} />
-        </TweakSection>
-      </TweaksPanel>
     </>
   );
 }
@@ -85,6 +30,7 @@ function App() {
 function ClassifiedHeader() {
   return (
     <div className="classified-bar">
+      <div className="threat-bar" aria-hidden="true" />
       <div className="shell" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, padding: "10px 32px" }}>
         <div className="mono" style={{ fontSize: 10, letterSpacing: "0.22em", color: "var(--ink-mute)" }}>
           DOSSIER #882-991 · DEPT/CYBERSEC · TLP:AMBER · <span style={{ color: "var(--accent)" }}>RD-0001</span>
@@ -96,8 +42,18 @@ function ClassifiedHeader() {
           <a href="#capabilities">004 / Capabilities</a>
           <a href="#contact">005 / Contact</a>
         </nav>
-        <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "var(--ink-dim)" }}>
-          <UtcClock />
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "var(--ink-dim)" }}>
+            <UtcClock />
+          </div>
+          <button
+            type="button"
+            className="cmdk-trigger mono"
+            onClick={() => window.dispatchEvent(new CustomEvent("rd:open-palette"))}
+            aria-label="Open command palette"
+          >
+            ⌘K
+          </button>
         </div>
       </div>
       <div className="scanbar" />
@@ -210,70 +166,77 @@ function Hero() {
           </div>
 
           <p className="hero-lede">
-            I run <span className="under">purple-team</span> ops — emulating adversaries (red) and hardening detections against them (blue) in the same sprint. Currently securing <span className="under">healthcare EHR</span> infrastructure at Cerner; previously hardened banking pipelines at Capgemini. MS Cybersecurity, Yeshiva University — <span style={{color:"var(--accent)"}}>graduated 2025.</span>
+            I run <span className="under">purple-team</span> ops — emulating adversaries (red) and hardening detections against them (blue) in the same sprint. Currently securing <span className="under">healthcare EHR</span> infrastructure at Cerner; previously hardened banking pipelines at Capgemini. MS Cybersecurity, Yeshiva University — <span style={{color:"var(--accent)"}}>graduated May 2026.</span>
           </p>
 
           <div className="hero-cta">
-            <a className="btn btn-primary" href="#projects">› View Operations</a>
-            <a className="btn" href="resume.pdf" target="_blank" rel="noreferrer">Download CV ↓</a>
+            <Magnetic><a className="btn btn-primary" href="#projects">› View Operations</a></Magnetic>
+            <Magnetic><a className="btn" href="resume.pdf" target="_blank" rel="noreferrer">Download CV ↓</a></Magnetic>
           </div>
 
-          <div className="hero-creds">
-            <div className="cred">
-              <div className="mono" style={{ fontSize: 10, letterSpacing: "0.16em", color: "var(--ink-mute)" }}>VERIFIED</div>
-              <div className="mono" style={{ fontSize: 13, color: "var(--ink)", marginTop: 4 }}>Security+ CE</div>
+          <Reveal delay={200}>
+            <div className="hero-creds">
+              <div className="cred tilt-in" style={{ animationDelay: "0ms" }}>
+                <div className="mono" style={{ fontSize: 10, letterSpacing: "0.16em", color: "var(--ink-mute)" }}>VERIFIED</div>
+                <div className="mono" style={{ fontSize: 13, color: "var(--ink)", marginTop: 4 }}>Security+ · CySA+</div>
+              </div>
+              <div className="cred tilt-in" style={{ animationDelay: "70ms" }}>
+                <div className="mono" style={{ fontSize: 10, letterSpacing: "0.16em", color: "var(--ink-mute)" }}>FIELD</div>
+                <div className="mono" style={{ fontSize: 13, color: "var(--ink)", marginTop: 4 }}>Purple Team</div>
+              </div>
+              <div className="cred tilt-in" style={{ animationDelay: "140ms" }}>
+                <div className="mono" style={{ fontSize: 10, letterSpacing: "0.16em", color: "var(--ink-mute)" }}>STATION</div>
+                <div className="mono" style={{ fontSize: 13, color: "var(--ink)", marginTop: 4 }}>Jersey City, NJ</div>
+              </div>
             </div>
-            <div className="cred">
-              <div className="mono" style={{ fontSize: 10, letterSpacing: "0.16em", color: "var(--ink-mute)" }}>FIELD</div>
-              <div className="mono" style={{ fontSize: 13, color: "var(--ink)", marginTop: 4 }}>Purple Team</div>
-            </div>
-            <div className="cred">
-              <div className="mono" style={{ fontSize: 10, letterSpacing: "0.16em", color: "var(--ink-mute)" }}>STATION</div>
-              <div className="mono" style={{ fontSize: 13, color: "var(--ink)", marginTop: 4 }}>Jersey City, NJ</div>
-            </div>
-          </div>
+          </Reveal>
         </div>
 
         {/* Right: dossier card */}
         <div className="hero-dossier">
-          <Panel title={<TypeURL text="dossier://subject/RD-0001" />} corners>
-            <div className="dossier-photo">
-              <img src="public/profile.jpg" alt="" />
-              <div className="dossier-overlay">
-                <div className="crosshair-h" />
-                <div className="crosshair-v" />
-                <div className="dossier-tag">RD-0001</div>
-                <Stamp angle={-8} style={{ position: "absolute", bottom: 14, right: 14 }}>CLEARED · L5</Stamp>
+          <TiltCard max={7}>
+            <Panel title={<TypeURL text="dossier://subject/RD-0001" />} corners>
+              <div className="dossier-photo">
+                <img src="public/profile.jpg" alt="Portrait of Rohith Donthula" />
+                <div className="dossier-overlay">
+                  <div className="crosshair-h" />
+                  <div className="crosshair-v" />
+                  <div className="dossier-tag">RD-0001</div>
+                  <Stamp angle={-8} style={{ position: "absolute", bottom: 14, right: 14 }}>CLEARED · L5</Stamp>
+                </div>
+              </div>
+              <dl className="kv" style={{ marginTop: 18 }}>
+                <dt>Subject</dt><dd>Rohith Donthula</dd>
+                <dt>Discipline</dt><dd>Cybersecurity / Purple Team</dd>
+                <dt>Specialization</dt><dd>Detection Eng · Adversary Emulation · IR</dd>
+                <dt>Sector</dt><dd>Healthcare · Financial Services</dd>
+                <dt>Education</dt><dd>MS Cybersecurity · Yeshiva (2026)</dd>
+                <dt>Status</dt><dd><span className="dot" style={{ marginRight: 8, verticalAlign: "middle" }} />Operational · On Active Engagement</dd>
+              </dl>
+              <div className="dossier-motto">"Attack what you build. Build what survives the attack."</div>
+            </Panel>
+          </TiltCard>
+
+          <Reveal delay={260}>
+            <div className="dossier-strip">
+              <div className="tilt-in" style={{ animationDelay: "0ms" }}>
+                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}>4+</div>
+                <div className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", color: "var(--ink-mute)", marginTop: 4 }}>YRS FIELD</div>
+              </div>
+              <div className="tilt-in" style={{ animationDelay: "60ms" }}>
+                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}>500+</div>
+                <div className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", color: "var(--ink-mute)", marginTop: 4 }}>ENDPOINTS</div>
+              </div>
+              <div className="tilt-in" style={{ animationDelay: "120ms" }}>
+                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}>50+</div>
+                <div className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", color: "var(--ink-mute)", marginTop: 4 }}>IR EVENTS</div>
+              </div>
+              <div className="tilt-in" style={{ animationDelay: "180ms" }}>
+                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--accent)" }}>30%</div>
+                <div className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", color: "var(--ink-mute)", marginTop: 4 }}>↓ MTTD</div>
               </div>
             </div>
-            <dl className="kv" style={{ marginTop: 18 }}>
-              <dt>Subject</dt><dd>Rohith Donthula</dd>
-              <dt>Discipline</dt><dd>Cybersecurity / Purple Team</dd>
-              <dt>Specialization</dt><dd>Detection Eng · Adversary Emulation · IR</dd>
-              <dt>Sector</dt><dd>Healthcare · Financial Services</dd>
-              <dt>Education</dt><dd>MS Cybersecurity · Yeshiva (2026)</dd>
-              <dt>Status</dt><dd><span className="dot" style={{ marginRight: 8, verticalAlign: "middle" }} />Operational · On Active Engagement</dd>
-            </dl>
-          </Panel>
-
-          <div className="dossier-strip">
-            <div>
-              <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}>4+</div>
-              <div className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", color: "var(--ink-mute)", marginTop: 4 }}>YRS FIELD</div>
-            </div>
-            <div>
-              <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}>500+</div>
-              <div className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", color: "var(--ink-mute)", marginTop: 4 }}>ENDPOINTS</div>
-            </div>
-            <div>
-              <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}>50+</div>
-              <div className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", color: "var(--ink-mute)", marginTop: 4 }}>IR EVENTS</div>
-            </div>
-            <div>
-              <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--accent)" }}>30%</div>
-              <div className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", color: "var(--ink-mute)", marginTop: 4 }}>↓ MTTD</div>
-            </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -301,33 +264,33 @@ function About() {
       <div className="shell">
         <div className="section-head">
           <div className="num">001 / Subject Brief</div>
-          <h2>Bridging offensive insight with <span className="accent">defensive engineering.</span></h2>
+          <GlitchHeading>Bridging offensive insight with <span className="accent">defensive engineering.</span></GlitchHeading>
         </div>
 
         <div className="about-grid">
           <Reveal>
             <Panel title="brief.md" corners>
-              <p style={{ fontSize: 18, lineHeight: 1.55, color: "var(--ink)" }}>
-                I'm a <span style={{ color: "var(--accent)" }}>purple-team analyst</span> — finishing my <span style={{ color: "var(--accent)" }}>MS in Cybersecurity at Yeshiva University</span> (May 2026), CompTIA <span style={{ color: "var(--accent)" }}>Security+</span> and <span style={{ color: "var(--accent)" }}>CySA+</span> certified. My work runs on a single principle: <em>attack what you build, build what survives the attack.</em>
-              </p>
-              <p style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
+              <Redacted style={{ fontSize: 18, lineHeight: 1.55, color: "var(--ink)" }}>
+                I'm a <span style={{ color: "var(--accent)" }}>purple-team analyst</span> holding an <span style={{ color: "var(--accent)" }}>MS in Cybersecurity from Yeshiva University</span> (May 2026), CompTIA <span style={{ color: "var(--accent)" }}>Security+</span> and <span style={{ color: "var(--accent)" }}>CySA+</span> certified. My work runs on a single principle: <em>attack what you build, build what survives the attack.</em>
+              </Redacted>
+              <Redacted delay={180} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
                 Currently a SOC analyst at <span style={{ color: "var(--ink)" }}>SecVal MSSP</span> — running Stellar Cyber Open XDR and CrowdStrike Falcon for hospitality clients under PCI DSS, correlating IOCs and TTPs against MITRE ATT&CK, and tuning detections to kill false-positive noise. I split my day between the red side (emulating adversary behavior with Atomic Red Team / Caldera, attacking my own Sigma rules) and the blue side (hardening detections, closing coverage gaps, regressing them in CI).
-              </p>
-              <p style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
+              </Redacted>
+              <Redacted delay={360} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
                 Before SecVal: ten months at <span style={{ color: "var(--ink)" }}>Cerner Healthcare</span> tuning EHR detections under HIPAA — pulled MTTD down ~30% — and three years at <span style={{ color: "var(--ink)" }}>Capgemini</span> hardening SWIFT and payment infrastructure under PCI-DSS / GDPR with zero major audit findings. I gravitate toward messy infrastructure under strict compliance, and I write reports leadership actually reads.
-              </p>
+              </Redacted>
             </Panel>
           </Reveal>
 
           <Reveal delay={120}>
             <div className="about-side">
-              <div className="about-stat">
+              <div className="about-stat tilt-in" style={{ animationDelay: "0ms" }}>
                 <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "var(--ink-mute)" }}>FRAMEWORKS & ENGAGEMENTS</div>
                 <div className="mono" style={{ marginTop: 8, fontSize: 13, color: "var(--ink)", lineHeight: 1.7 }}>
                   Purple-team ops · Atomic Red Team · Caldera · MITRE ATT&CK · Stellar Cyber XDR · CrowdStrike Falcon · Splunk · Sigma · Tenable · NIST 800-61 · SOC2 · PCI-DSS · GDPR · HIPAA
                 </div>
               </div>
-              <div className="about-stat">
+              <div className="about-stat tilt-in" style={{ animationDelay: "90ms" }}>
                 <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "var(--ink-mute)" }}>FIELD ACHIEVEMENTS</div>
                 <ul style={{ margin: "10px 0 0", paddingLeft: 0, listStyle: "none", color: "var(--ink-dim)", fontSize: 13, lineHeight: 1.7 }}>
                   <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> 2nd · ISACA × Yeshiva CTF</li>
@@ -336,10 +299,10 @@ function About() {
                   <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> 75% faster forensics · Capgemini</li>
                 </ul>
               </div>
-              <div className="about-stat">
+              <div className="about-stat tilt-in" style={{ animationDelay: "180ms" }}>
                 <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "var(--ink-mute)" }}>EDUCATION</div>
                 <div style={{ marginTop: 8, color: "var(--ink-dim)", fontSize: 13, lineHeight: 1.7 }}>
-                  <div><span style={{ color: "var(--ink)" }}>MS Cybersecurity</span> — Yeshiva University · expected May 2026</div>
+                  <div><span style={{ color: "var(--ink)" }}>MS Cybersecurity</span> — Yeshiva University · May 2026</div>
                   <div>Cybersecurity — IIIT Bangalore · 2023–2024</div>
                   <div>B.Tech CSE — Malla Reddy Institute of Technology · 2019–2023</div>
                 </div>
@@ -361,7 +324,7 @@ function ExperienceSection() {
       <div className="shell">
         <div className="section-head">
           <div className="num">002 / Service Record</div>
-          <h2>Where I've <span className="accent">deployed.</span></h2>
+          <GlitchHeading>Where I've <span className="accent">deployed.</span></GlitchHeading>
         </div>
         <div className="exp-list">
           {EXPERIENCE.map((e, i) => <ExpItem key={i} e={e} idx={i} />)}
@@ -380,10 +343,14 @@ function ProjectsSection() {
       <div className="shell">
         <div className="section-head">
           <div className="num">003 / Operations</div>
-          <h2>Selected <span className="accent">case files.</span></h2>
+          <GlitchHeading>Selected <span className="accent">case files.</span></GlitchHeading>
         </div>
         <div className="proj-list">
-          {PROJECTS.map((p, i) => <ProjectCard key={i} p={p} idx={i} />)}
+          {PROJECTS.map((p, i) => (
+            <Reveal key={i} delay={i * 70}>
+              <ProjectCard p={p} idx={i} />
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
@@ -399,7 +366,7 @@ function CapabilitySection() {
       <div className="shell">
         <div className="section-head">
           <div className="num">004 / Capabilities</div>
-          <h2>The <span className="accent">attack & defense</span> matrix.</h2>
+          <GlitchHeading>The <span className="accent">attack & defense</span> matrix.</GlitchHeading>
         </div>
 
         <Reveal>
@@ -410,7 +377,7 @@ function CapabilitySection() {
 
         <Reveal delay={120}>
           <div style={{ marginTop: 28, display: "grid", gridTemplateColumns: "minmax(0,1.6fr) minmax(0,1fr)", gap: 24 }} className="cap-grid">
-            <Panel title="graph://tooling_topology" corners>
+            <Panel title="graph://purple_fusion_core" corners>
               <NetworkGraph />
             </Panel>
             <Panel title="logs://recent_activity">
@@ -431,69 +398,43 @@ function CapabilitySection() {
 }
 
 // ─────────────────────────────────────────────
-// CERTS + TESTIMONIALS
+// CERTS
 // ─────────────────────────────────────────────
-function CertsAndTestimonials() {
+function CertsSection() {
   return (
     <section className="section" id="record">
       <div className="shell">
         <div className="section-head">
           <div className="num">004.b / Verifications</div>
-          <h2>Credentials & <span className="accent">field commendations.</span></h2>
+          <GlitchHeading>Credentials & <span className="accent">certifications.</span></GlitchHeading>
         </div>
 
-        <div className="record-grid">
-          <Reveal>
-            <Panel title="certs://timeline" corners>
-              <CertTimeline certs={CERTS} />
-            </Panel>
-          </Reveal>
-
-          <div className="testimonial-stack">
-            {TESTIMONIALS.map((t, i) => (
-              <Reveal key={i} delay={i * 80}>
-                <div className="testimonial">
-                  <div className="quote-mark">“</div>
-                  <p className="quote-body">{t.quote}</p>
-                  <div className="quote-by">
-                    <div className="mono" style={{ fontSize: 12, color: "var(--ink)" }}>— {t.by}</div>
-                    <div className="mono" style={{ fontSize: 10, color: "var(--ink-mute)", letterSpacing: "0.16em", marginTop: 4 }}>{t.org}</div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
+        <Reveal>
+          <Panel title="certs://timeline" corners>
+            <CertTimeline certs={CERTS} />
+          </Panel>
+        </Reveal>
       </div>
     </section>
   );
 }
 
 // ─────────────────────────────────────────────
-// NEWS / WRITING
+// TERMINAL ACCESS — a real, typable terminal
 // ─────────────────────────────────────────────
-function NewsSection() {
+function TerminalAccessSection() {
   return (
-    <section className="section" id="news">
+    <section className="section" id="terminal-access">
       <div className="shell">
         <div className="section-head">
-          <div className="num">004.c / Field Notes</div>
-          <h2>Writing & <span className="accent">talks.</span></h2>
+          <div className="num">004.c / Direct Access</div>
+          <GlitchHeading>Query the <span className="accent">dossier directly.</span></GlitchHeading>
         </div>
-        <div className="news-grid">
-          {NEWS.map((n, i) => (
-            <Reveal key={i} delay={i * 60}>
-              <a className="news-card interactive" href="#">
-                <div className="news-tag">
-                  <span className="chip chip-accent">{n.tag}</span>
-                  <span className="mono" style={{ fontSize: 10, color: "var(--ink-mute)", letterSpacing: "0.16em" }}>{n.read}</span>
-                </div>
-                <div className="news-title">{n.title}</div>
-                <div className="news-cta mono">READ → </div>
-              </a>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal>
+          <Panel title="shell://guest_session" corners>
+            <TerminalConsole />
+          </Panel>
+        </Reveal>
       </div>
     </section>
   );
@@ -508,7 +449,7 @@ function Contact() {
       <div className="shell">
         <div className="section-head">
           <div className="num">005 / Establish Contact</div>
-          <h2>Open a <span className="accent">secure channel.</span></h2>
+          <GlitchHeading>Open a <span className="accent">secure channel.</span></GlitchHeading>
         </div>
         <div className="contact-grid">
           <Reveal>

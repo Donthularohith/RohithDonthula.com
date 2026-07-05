@@ -1,7 +1,4 @@
 /* eslint-disable no-undef */
-const { useState, useEffect, useRef } = React;
-
-const T = window.useTweaks ? null : null; // placeholder
 
 // Data
 const PROJECTS = [
@@ -149,7 +146,7 @@ const EXPERIENCE = [
 ];
 
 const CERTS = [
-  { year: "2026", name: "MS Cybersecurity (Expected)", issuer: "Yeshiva University · Aug 2024 – May 2026", status: "in-progress" },
+  { year: "2026", name: "MS Cybersecurity", issuer: "Yeshiva University · Aug 2024 – May 2026", status: "achieved" },
   { year: "2024", name: "CompTIA CySA+ (Security Analytics)", issuer: "CompTIA · CSAP Stackable", status: "achieved" },
   { year: "2024", name: "CompTIA Security+ CE", issuer: "CompTIA · SY0-701", status: "achieved" },
   { year: "2024", name: "Cybersecurity Coursework", issuer: "IIIT Bangalore · Aug 2023 – Mar 2024", status: "achieved" },
@@ -158,29 +155,4 @@ const CERTS = [
   { year: "2023", name: "B.Tech Computer Science & Engineering", issuer: "Malla Reddy Institute of Technology · Jun 2019 – Jul 2023", status: "achieved" },
 ];
 
-const TESTIMONIALS = [
-  {
-    quote: "Methodical, calm under fire, and the rare analyst who writes incident reports leadership actually reads.",
-    by: "Senior SOC Lead",
-    org: "Healthcare · referenced",
-  },
-  {
-    quote: "Took a vague threat-hunting brief and shipped Sigma rules that paid for themselves in a week.",
-    by: "Detection Engineering Manager",
-    org: "Financial Services",
-  },
-  {
-    quote: "Treats every audit like a research problem. Closed gaps that had been open for two compliance cycles.",
-    by: "Compliance & Risk Director",
-    org: "Capstone Engagement",
-  },
-];
-
-const NEWS = [
-  { tag: "BLOG", title: "Tuning Splunk for EHR — three correlation rules that pulled their weight", read: "6 min" },
-  { tag: "NOTE", title: "From Burp dry-run to executive risk memo: a translator's playbook", read: "4 min" },
-  { tag: "TALK", title: "MITRE ATT&CK in healthcare: mapping clinical APT chains", read: "12 min" },
-  { tag: "BLOG", title: "Zero Trust on a hospital LAN: the realistic version", read: "8 min" },
-];
-
-Object.assign(window, { PROJECTS, EXPERIENCE, CERTS, TESTIMONIALS, NEWS });
+Object.assign(window, { PROJECTS, EXPERIENCE, CERTS });
