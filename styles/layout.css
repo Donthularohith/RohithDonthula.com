@@ -7,9 +7,24 @@
   background: color-mix(in oklch, var(--bg) 80%, transparent);
   border-bottom: 1px solid var(--rule);
 }
+/* Threat bar doubles as scroll progress: dim base + bright fill */
 .threat-bar {
   height: 2px;
+  position: relative;
   background: linear-gradient(90deg, var(--accent) 0%, var(--purple) 50%, var(--blue) 100%);
+}
+.threat-bar::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: var(--bg);
+  opacity: 0.78;
+}
+.threat-fill {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--purple) 50%, var(--blue) 100%);
+  transform: scaleX(0);
+  transform-origin: left center;
+  box-shadow: 0 0 8px color-mix(in oklch, var(--purple) 60%, transparent);
 }
 
 /* ── Section progress dots ───────────────────── */
@@ -306,15 +321,31 @@
   border-color: var(--accent);
   color: var(--accent);
 }
+/* Fluid expand: body stays mounted; the grid row animates 0fr → 1fr */
+.proj-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 620ms cubic-bezier(.16,1,.3,1);
+}
+.proj-card.is-open .proj-collapse { grid-template-rows: 1fr; }
 .proj-body {
+  overflow: hidden;
+  min-height: 0;
+  padding: 0 28px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 380ms ease, transform 520ms cubic-bezier(.16,1,.3,1), padding 620ms cubic-bezier(.16,1,.3,1);
+}
+.proj-card.is-open .proj-body {
   padding: 0 28px 32px;
   border-top: 1px dashed var(--rule);
-  animation: slideDown 320ms ease-out;
+  opacity: 1;
+  transform: none;
+  transition-delay: 90ms, 90ms, 0ms;
 }
-@media (max-width: 760px) { .proj-body { padding: 0 20px 24px; } }
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: none; }
+@media (max-width: 760px) {
+  .proj-body { padding: 0 20px; }
+  .proj-card.is-open .proj-body { padding: 0 20px 24px; }
 }
 .proj-grid {
   padding: 28px 0;
@@ -545,6 +576,70 @@ em { font-style: italic; color: var(--ink); }
   border-top: 1px solid var(--rule);
   font-size: 10px; letter-spacing: 0.14em;
   color: var(--ink-mute);
+}
+
+/* ── Cursor spotlight on cards ────────────── */
+.is-spotlit {
+  background-image: radial-gradient(
+    340px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    color-mix(in oklch, var(--accent) 7%, transparent),
+    transparent 72%
+  );
+}
+
+/* ── Anchor offset under sticky header ────── */
+.section { scroll-margin-top: 64px; }
+
+/* ── Live pill (panel title bars) ─────────── */
+.live-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 9px; letter-spacing: 0.22em;
+  color: var(--signal);
+  border: 1px solid var(--signal);
+  background: var(--signal-soft);
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+/* ── Threat radar ─────────────────────────── */
+.cap-grid .panel { display: flex; flex-direction: column; }
+.cap-grid .panel .panel-b { flex: 1; display: flex; flex-direction: column; }
+.cap-grid .panel .panel-b > * { flex: 1; min-height: 0; }
+.radar-wrap { position: relative; display: flex; flex-direction: column; justify-content: center; }
+.radar-wrap canvas { display: block; width: 100%; }
+.radar-readout {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--rule);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  min-height: 28px;
+}
+
+/* ── Live ops feed ────────────────────────── */
+.ops-feed { display: grid; gap: 9px; font-size: 12.5px; line-height: 1.6; }
+.ops-line {
+  display: grid;
+  grid-template-columns: 74px 46px 1fr;
+  gap: 12px;
+  align-items: baseline;
+  animation: opsIn 520ms cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes opsIn {
+  from { opacity: 0; transform: translateY(9px); filter: blur(3px); }
+  to   { opacity: 1; transform: none; filter: none; }
+}
+.ops-ts { color: var(--ink-mute); font-size: 10.5px; letter-spacing: 0.06em; }
+.ops-tag { letter-spacing: 0.06em; }
+.ops-tag.tone-signal { color: var(--signal); }
+.ops-tag.tone-accent { color: var(--accent); }
+.ops-tag.tone-amber  { color: var(--amber); }
+.ops-tag.tone-blue   { color: var(--blue); }
+.ops-text { color: var(--ink-dim); }
+.ops-cursor-line { opacity: 0.65; }
+@media (max-width: 640px) {
+  .ops-line { grid-template-columns: 60px 40px 1fr; gap: 8px; }
+  .ops-ts { font-size: 9.5px; }
 }
 
 /* ── Terminal console ─────────────────────── */

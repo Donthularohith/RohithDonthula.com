@@ -3,6 +3,8 @@
 function App() {
   return (
     <>
+      <SmoothScroll />
+      <CardSpotlight />
       <ParticleField />
       <BootSequence />
       <CustomCursor enabled={true} />
@@ -30,7 +32,7 @@ function App() {
 function ClassifiedHeader() {
   return (
     <div className="classified-bar">
-      <div className="threat-bar" aria-hidden="true" />
+      <ThreatProgress />
       <div className="shell" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, padding: "10px 32px" }}>
         <div className="mono" style={{ fontSize: 10, letterSpacing: "0.22em", color: "var(--ink-mute)" }}>
           DOSSIER #882-991 · DEPT/CYBERSEC · TLP:AMBER · <span style={{ color: "var(--accent)" }}>RD-0001</span>
@@ -157,8 +159,8 @@ function Hero() {
           </div>
 
           <h1 className="hero-name display">
-            <span className="hero-line">ROHITH</span>
-            <span className="hero-line dim">DONTHULA</span>
+            <span className="hero-line"><DecryptText text="ROHITH" delay={250} interval={30} /></span>
+            <span className="hero-line dim"><DecryptText text="DONTHULA" delay={520} interval={30} /></span>
           </h1>
 
           <div className="hero-roles mono">
@@ -194,6 +196,7 @@ function Hero() {
 
         {/* Right: dossier card */}
         <div className="hero-dossier">
+          <Parallax strength={12}>
           <TiltCard max={7}>
             <Panel title={<TypeURL text="dossier://subject/RD-0001" />} corners>
               <div className="dossier-photo">
@@ -216,23 +219,24 @@ function Hero() {
               <div className="dossier-motto">"Attack what you build. Build what survives the attack."</div>
             </Panel>
           </TiltCard>
+          </Parallax>
 
           <Reveal delay={260}>
             <div className="dossier-strip">
               <div className="tilt-in" style={{ animationDelay: "0ms" }}>
-                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}>4+</div>
+                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}><CountUp value="4+" /></div>
                 <div className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", color: "var(--ink-mute)", marginTop: 4 }}>YRS FIELD</div>
               </div>
               <div className="tilt-in" style={{ animationDelay: "60ms" }}>
-                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}>500+</div>
+                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}><CountUp value="500+" /></div>
                 <div className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", color: "var(--ink-mute)", marginTop: 4 }}>ENDPOINTS</div>
               </div>
               <div className="tilt-in" style={{ animationDelay: "120ms" }}>
-                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}>50+</div>
+                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}><CountUp value="50+" /></div>
                 <div className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", color: "var(--ink-mute)", marginTop: 4 }}>IR EVENTS</div>
               </div>
               <div className="tilt-in" style={{ animationDelay: "180ms" }}>
-                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--accent)" }}>30%</div>
+                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--accent)" }}><CountUp value="30%" /></div>
                 <div className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", color: "var(--ink-mute)", marginTop: 4 }}>↓ MTTD</div>
               </div>
             </div>
@@ -380,20 +384,29 @@ function CapabilitySection() {
             <Panel title="graph://purple_fusion_core" corners>
               <NetworkGraph />
             </Panel>
-            <Panel title="logs://recent_activity">
-              <ul className="op-log">
-                <li><span className="mono" style={{ color: "var(--signal)", marginRight: 12 }}>[OK]</span><span>Tuned 14 Splunk correlation searches across EHR sources.</span></li>
-                <li><span className="mono" style={{ color: "var(--signal)", marginRight: 12 }}>[OK]</span><span>Closed Tenable critical backlog from 47 → 0 in Q3.</span></li>
-                <li><span className="mono" style={{ color: "var(--amber)", marginRight: 12 }}>[REV]</span><span>Reviewed CrowdStrike isolations across 500+ endpoints.</span></li>
-                <li><span className="mono" style={{ color: "var(--signal)", marginRight: 12 }}>[OK]</span><span>Authored Sigma ruleset for Proofpoint phish chain.</span></li>
-                <li><span className="mono" style={{ color: "var(--accent)", marginRight: 12 }}>[INC]</span><span>Led IR for credential-stuffing event — contained &lt; 30 min.</span></li>
-                <li><span className="mono" style={{ color: "var(--signal)", marginRight: 12 }}>[OK]</span><span>Mapped clinical APT chain to MITRE T1078 / T1190.</span></li>
-              </ul>
+            <Panel title="radar://sector_sweep" accent={<LivePill />}>
+              <ThreatRadar />
+            </Panel>
+          </div>
+        </Reveal>
+
+        <Reveal delay={160}>
+          <div style={{ marginTop: 24 }}>
+            <Panel title="feed://soc_watchfloor" accent={<LivePill />} corners>
+              <LiveOpsFeed />
             </Panel>
           </div>
         </Reveal>
       </div>
     </section>
+  );
+}
+
+function LivePill() {
+  return (
+    <span className="live-pill mono" aria-label="Live">
+      <span className="dot" style={{ width: 6, height: 6 }} /> LIVE
+    </span>
   );
 }
 

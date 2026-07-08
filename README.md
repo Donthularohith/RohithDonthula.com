@@ -33,6 +33,21 @@ Other body data‑attributes:
 
 The Tweaks panel persists changes via the `__edit_mode_set_keys` postMessage protocol; in production you'll likely drop the panel and just default to `dossier` (or save preference in `localStorage`).
 
+## Fluid motion system
+The prototype ships a coordinated motion layer (all in `components/primitives.jsx` unless noted; every piece honors `prefers-reduced-motion` and disables pointer-dependent effects on touch devices):
+
+- **`SmoothScroll`** — Lenis-style inertia scrolling: wheel input is intercepted (fine pointers only) and the scroll position lerps toward its target so the page glides. Nested scrollables (terminal, palette), keyboard, scrollbar, anchors, and touch are untouched.
+- **`ThreatProgress`** — the header's tri-color threat bar doubles as a scroll-progress indicator (dim base, bright fill).
+- **`Marquee`** — the tickers react to scroll velocity: they rush and skew with fast scrolling and reverse direction when scrolling up.
+- **`DecryptText`** — the hero name scrambles and settles per-character like cracking a cipher; hover re-scrambles. Waits for the boot overlay to clear.
+- **`CountUp`** — stats (hero strip, project metrics) count up from zero when scrolled into view.
+- **`CardSpotlight`** — a single delegated listener paints a cursor-tracking radial glow on whichever panel/card the pointer is over.
+- **`Parallax`** — the hero dossier card drifts a few px against the cursor for depth.
+- **Reveal** — scroll reveals use a long expo ease with a focus-pull blur; project case files expand with an animated `grid-template-rows` transition instead of popping in.
+- **`ThreatRadar` + `LiveOpsFeed`** (`components/visualizations.jsx`) — the Capabilities section carries a live SOC watchfloor: a canvas radar sweep pinging ATT&CK-tagged contacts, and an endlessly streaming ops log with live timestamps. Both pause off-screen.
+
+React (production UMD) and Babel standalone are self-hosted from `vendor/` — no third-party CDN at runtime except Google Fonts.
+
 ## Sections (top → bottom)
 Each section is one element in `app.jsx`. Order is fixed; copy is final.
 

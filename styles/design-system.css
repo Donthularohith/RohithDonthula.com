@@ -379,13 +379,17 @@ body[data-mode="recruiter"] .panel-h {
 }
 .section-head h2 .accent { color: var(--accent); }
 
-/* Reveal-on-scroll */
+/* Reveal-on-scroll — long expo ease + focus-pull blur for a fluid entrance */
 .reveal {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 700ms ease, transform 700ms cubic-bezier(.2,.8,.2,1);
+  transform: translateY(26px);
+  filter: blur(6px);
+  transition:
+    opacity 950ms cubic-bezier(.16,1,.3,1),
+    transform 950ms cubic-bezier(.16,1,.3,1),
+    filter 950ms cubic-bezier(.16,1,.3,1);
 }
-.reveal.in { opacity: 1; transform: none; }
+.reveal.in { opacity: 1; transform: none; filter: none; }
 
 /* Marquee */
 .marquee {
@@ -401,7 +405,7 @@ body[data-mode="recruiter"] .panel-h {
   display: inline-flex;
   gap: 48px;
   white-space: nowrap;
-  animation: scroll 40s linear infinite;
+  will-change: transform;
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.18em;
@@ -409,10 +413,6 @@ body[data-mode="recruiter"] .panel-h {
   color: var(--ink-dim);
 }
 .marquee-track .sep { color: var(--accent); }
-@keyframes scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
 
 /* Type-on effect */
 @keyframes typeon {
@@ -560,8 +560,13 @@ body[data-cursor="on"] a, body[data-cursor="on"] button, body[data-cursor="on"] 
 
 /* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .reveal { opacity: 1; transform: none; transition: none; filter: none; }
   .marquee-track { animation: none; }
+  .ops-line { animation: none; }
+  .proj-collapse { transition: none; }
+  .proj-body { transition: none; }
+  .is-spotlit { background-image: none; }
+  .threat-fill { box-shadow: none; }
   .dot::after { animation: none; }
   .glitch-heading.play { animation: none; }
   .redacted::after { transition: none; }

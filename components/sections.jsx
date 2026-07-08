@@ -27,7 +27,7 @@ function ProjectCard({ p, idx }) {
         </div>
       </div>
 
-      {open && (
+      <div className="proj-collapse" aria-hidden={!open}>
         <div className="proj-body">
           <div className="proj-grid">
             <div>
@@ -63,14 +63,14 @@ function ProjectCard({ p, idx }) {
             <div className="proj-metrics">
               {p.metrics.map((m, i) => (
                 <div key={i} className="metric">
-                  <div className="metric-v">{m.value}</div>
+                  <div className="metric-v">{open ? <CountUp value={m.value} /> : m.value}</div>
                   <div className="metric-l">{m.label}</div>
                 </div>
               ))}
             </div>
           )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
