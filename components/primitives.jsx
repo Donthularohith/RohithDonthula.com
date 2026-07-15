@@ -71,13 +71,60 @@ function Typewriter({ text, speed = 28, start = true, className = "", showCaret 
 }
 
 // ────────────────────────────────────────────────────────────
-// Marquee — infinite scrolling text
+// Marquee — infinite ticker that reacts to scroll velocity:
+// scrolling fast makes it rush and skew; scrolling up reverses
+// its direction. Falls back to a static strip on reduced motion.
 // ────────────────────────────────────────────────────────────
 function Marquee({ items }) {
-  const seq = [...items, ...items, ...items];
+  const seq = [...items, ...items, ...items, ...items];
+  const trackRef = useRef(null);
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    const el = trackRef.current;
+    if (!el) return;
+
+    let raf, half = 0;
+    let x = 0, dir = 1, vel = 0, skew = 0;
+    let lastY = window.scrollY;
+    let last = performance.now();
+
+    const measure = () => { half = el.scrollWidth / 2; };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+
+    const tick = (now) => {
+      const dt = Math.min(64, now - last) / 1000;
+      last = now;
+
+      // smoothed scroll velocity (px/frame-ish)
+      const y = window.scrollY;
+      vel += ((y - lastY) - vel) * 0.12;
+      lastY = y;
+
+      // direction eases toward scroll direction
+      const wantDir = vel < -0.6 ? -1 : 1;
+      dir += (wantDir - dir) * 0.06;
+
+      const speed = 55 + Math.min(420, Math.abs(vel) * 16);
+      x += speed * dt * dir;
+      if (half > 0) x = ((x % half) + half) % half;
+
+      const wantSkew = Math.max(-14, Math.min(14, vel * 0.45));
+      skew += (wantSkew - skew) * 0.1;
+
+      el.style.transform = `translate3d(${-x}px, 0, 0) skewX(${-skew}deg)`;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+  }, []);
+
   return (
     <div className="marquee">
-      <div className="marquee-track">
+      <div className="marquee-track" ref={trackRef}>
         {seq.map((s, i) => (
           <React.Fragment key={i}>
             <span>{s}</span>
@@ -451,6 +498,8 @@ function BootSequence() {
     if (window.sessionStorage) sessionStorage.setItem("rd_boot_seen", "1");
     document.body.style.overflow = "";
     setVisible(false);
+    window.__rdBootDone = true;
+    window.dispatchEvent(new CustomEvent("rd:boot-done"));
   };
 
   useEffect(() => {
@@ -648,7 +697,259 @@ function CommandPalette() {
   );
 }
 
+// ────────────────────────────────────────────────────────────
+// SmoothScroll — Lenis-style inertia scrolling. Intercepts wheel
+// input (fine pointers only) and lerps the real scroll position
+// toward the target, so the whole page glides instead of stepping.
+// Native scrolling is untouched for touch devices, keyboard,
+// scrollbar drags, anchors, and reduced-motion users.
+// ────────────────────────────────────────────────────────────
+function SmoothScroll() {
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    let target = window.scrollY;
+    let current = window.scrollY;
+    let raf = null;
+    let animating = false;
+
+    const maxScroll = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+
+    const tick = () => {
+      current += (target - current) * 0.105;
+      if (Math.abs(target - current) < 0.4) {
+        current = target;
+        window.scrollTo({ top: current, behavior: "instant" });
+        animating = false;
+        return;
+      }
+      window.scrollTo({ top: current, behavior: "instant" });
+      raf = requestAnimationFrame(tick);
+    };
+
+    const onWheel = (e) => {
+      if (e.ctrlKey || e.metaKey) return; // pinch-zoom
+      if (e.defaultPrevented) return;
+      // let nested scrollables (terminal, palette) scroll natively
+      if (e.target.closest && e.target.closest(".term-scroll, .palette-list, .palette-overlay")) return;
+      if (document.body.style.overflow === "hidden") return;
+
+      e.preventDefault();
+      let d = e.deltaY;
+      if (e.deltaMode === 1) d *= 16;
+      else if (e.deltaMode === 2) d *= window.innerHeight;
+      target = Math.max(0, Math.min(maxScroll(), target + d));
+      if (!animating) {
+        animating = true;
+        current = window.scrollY;
+        raf = requestAnimationFrame(tick);
+      }
+    };
+
+    // anchors / keyboard / scrollbar move the page without us — resync
+    const onScroll = () => { if (!animating) { target = window.scrollY; current = window.scrollY; } };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+  return null;
+}
+
+// ────────────────────────────────────────────────────────────
+// ThreatProgress — the header's tri-color threat bar doubles as
+// a scroll progress indicator: dim base, bright fill.
+// ────────────────────────────────────────────────────────────
+function ThreatProgress() {
+  const fillRef = useRef(null);
+  useEffect(() => {
+    let raf = null;
+    const update = () => {
+      raf = null;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      if (fillRef.current) fillRef.current.style.transform = `scaleX(${p})`;
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+  return (
+    <div className="threat-bar" aria-hidden="true">
+      <div className="threat-fill" ref={fillRef} />
+    </div>
+  );
+}
+
+// ────────────────────────────────────────────────────────────
+// CountUp — stat values count up from 0 when scrolled into view.
+// Accepts strings like "4+", "500+", "30%", "75%", "<24" and
+// animates just the numeric part, keeping prefix/suffix intact.
+// ────────────────────────────────────────────────────────────
+function CountUp({ value, duration = 1400 }) {
+  const ref = useRef(null);
+  const m = String(value).match(/^([^0-9]*)([0-9]+(?:\.[0-9]+)?)(.*)$/);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !m) return;
+    if (prefersReducedMotion()) { el.textContent = value; return; }
+    const prefix = m[1], num = parseFloat(m[2]), suffix = m[3];
+    const decimals = (m[2].split(".")[1] || "").length;
+
+    let raf, started = false;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting || started) return;
+        started = true;
+        obs.unobserve(el);
+        const t0 = performance.now();
+        const step = (now) => {
+          const t = Math.min(1, (now - t0) / duration);
+          const eased = 1 - Math.pow(2, -10 * t); // easeOutExpo
+          el.textContent = prefix + (num * eased).toFixed(decimals) + suffix;
+          if (t < 1) raf = requestAnimationFrame(step);
+          else el.textContent = value;
+        };
+        raf = requestAnimationFrame(step);
+      });
+    }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => { obs.disconnect(); if (raf) cancelAnimationFrame(raf); };
+  }, [value, duration]);
+
+  if (!m) return <span>{value}</span>;
+  return <span ref={ref}>{prefersReducedMotion() ? value : m[1] + "0" + m[3]}</span>;
+}
+
+// ────────────────────────────────────────────────────────────
+// DecryptText — per-character scramble that settles left to
+// right, like cracking a cipher. Re-scrambles on hover.
+// ────────────────────────────────────────────────────────────
+function DecryptText({ text, delay = 0, interval = 34, className = "", as: Tag = "span" }) {
+  const ref = useRef(null);
+  const running = useRef(false);
+  const GLYPHS = "!<>-_\\/[]{}—=+*^?#@$%&0123456789ABCDEF";
+
+  const play = React.useCallback(() => {
+    const el = ref.current;
+    if (!el || running.current) return;
+    if (prefersReducedMotion()) { el.textContent = text; return; }
+    running.current = true;
+    let frame = 0;
+    const total = text.length;
+    const id = setInterval(() => {
+      frame++;
+      const settled = Math.floor(frame / 2.4);
+      let out = "";
+      for (let i = 0; i < total; i++) {
+        const ch = text[i];
+        if (ch === " ") { out += " "; continue; }
+        out += i < settled ? ch : GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+      }
+      el.textContent = out;
+      if (settled >= total) {
+        clearInterval(id);
+        el.textContent = text;
+        running.current = false;
+      }
+    }, interval);
+  }, [text, interval]);
+
+  useEffect(() => {
+    // If the boot overlay is still running, hold the reveal until it clears
+    // so the decrypt is actually seen.
+    let t;
+    const arm = () => { t = setTimeout(play, delay); };
+    const bootActive = document.querySelector(".boot-overlay:not(.is-hidden)") && !window.__rdBootDone;
+    if (bootActive) {
+      const onDone = () => { arm(); };
+      window.addEventListener("rd:boot-done", onDone, { once: true });
+      return () => { window.removeEventListener("rd:boot-done", onDone); clearTimeout(t); };
+    }
+    arm();
+    return () => clearTimeout(t);
+  }, [play, delay]);
+
+  return (
+    <Tag ref={ref} className={className} onMouseEnter={play} aria-label={text}>
+      {text}
+    </Tag>
+  );
+}
+
+// ────────────────────────────────────────────────────────────
+// CardSpotlight — one delegated listener paints a cursor-tracking
+// radial glow onto whichever card the pointer is over (via CSS
+// custom properties consumed by the stylesheet).
+// ────────────────────────────────────────────────────────────
+const SPOTLIGHT_SELECTOR = ".panel, .exp-card, .about-stat, .proj-card, .cred, .availability, .dossier-strip > div";
+
+function CardSpotlight() {
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    let prev = null;
+    const onMove = (e) => {
+      const card = e.target.closest ? e.target.closest(SPOTLIGHT_SELECTOR) : null;
+      if (prev && prev !== card) prev.classList.remove("is-spotlit");
+      if (card) {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--spot-x", `${e.clientX - r.left}px`);
+        card.style.setProperty("--spot-y", `${e.clientY - r.top}px`);
+        card.classList.add("is-spotlit");
+      }
+      prev = card;
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
+  return null;
+}
+
+// ────────────────────────────────────────────────────────────
+// Parallax — drifts its child a few px against the cursor for
+// depth. strength is the max offset in px.
+// ────────────────────────────────────────────────────────────
+function Parallax({ children, strength = 10, className = "", style }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    let raf, tx = 0, ty = 0, cx = 0, cy = 0;
+    const onMove = (e) => {
+      tx = (e.clientX / window.innerWidth - 0.5) * -2 * strength;
+      ty = (e.clientY / window.innerHeight - 0.5) * -2 * strength;
+    };
+    const tick = () => {
+      cx += (tx - cx) * 0.045;
+      cy += (ty - cy) * 0.045;
+      if (ref.current) ref.current.style.transform = `translate3d(${cx.toFixed(2)}px, ${cy.toFixed(2)}px, 0)`;
+      raf = requestAnimationFrame(tick);
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    raf = requestAnimationFrame(tick);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(raf);
+    };
+  }, [strength]);
+  return <div ref={ref} className={className} style={{ willChange: "transform", ...style }}>{children}</div>;
+}
+
 Object.assign(window, {
   Panel, Reveal, Typewriter, Marquee, CustomCursor, UtcClock, Stamp,
   GlitchHeading, Redacted, Magnetic, ParticleField, BootSequence, TiltCard, SectionDots, CommandPalette,
+  SmoothScroll, ThreatProgress, CountUp, DecryptText, CardSpotlight, Parallax,
 });

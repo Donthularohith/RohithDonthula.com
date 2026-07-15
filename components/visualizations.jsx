@@ -439,4 +439,264 @@ function NetworkGraph() {
   );
 }
 
-Object.assign(window, { MitreMatrix, NetworkGraph });
+// ────────────────────────────────────────────────────────────
+// ThreatRadar — SOC watchfloor radar: concentric sweep with
+// contacts that ping in, get classified against ATT&CK, then
+// fade. Pure canvas, pauses off-screen, honors reduced motion.
+// ────────────────────────────────────────────────────────────
+const RADAR_CONTACTS = [
+  { id: "T1078", label: "Valid Accounts" },
+  { id: "T1190", label: "Exploit Public-Facing App" },
+  { id: "T1059", label: "Command & Scripting" },
+  { id: "T1566", label: "Phishing" },
+  { id: "T1110", label: "Brute Force" },
+  { id: "T1021", label: "Remote Services" },
+  { id: "T1486", label: "Data Encrypted (Ransom)" },
+  { id: "T1046", label: "Network Service Discovery" },
+];
+
+function ThreatRadar() {
+  const wrapRef = useRef(null);
+  const canvasRef = useRef(null);
+  const [contact, setContact] = useState(null);
+  const reduced = prefersReducedMotion();
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const wrap = wrapRef.current;
+    if (!canvas || !wrap) return;
+    const ctx = canvas.getContext("2d");
+    let raf = null, visible = true, W = 0, H = 0, dpr = 1;
+
+    const resize = () => {
+      const r = wrap.getBoundingClientRect();
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = r.width; H = Math.max(320, r.width * 0.92);
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      canvas.style.width = W + "px"; canvas.style.height = H + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    const ro = new ResizeObserver(() => { resize(); if (reduced) requestAnimationFrame(draw); });
+    ro.observe(wrap);
+
+    const css = (name) => getComputedStyle(document.body).getPropertyValue(name).trim();
+
+    let blips = [];
+    let lastSpawn = 0;
+
+    const spawn = (now) => {
+      const c = RADAR_CONTACTS[Math.floor(Math.random() * RADAR_CONTACTS.length)];
+      const hostile = Math.random() < 0.45;
+      blips.push({
+        angle: Math.random() * Math.PI * 2,
+        dist: 0.25 + Math.random() * 0.68,
+        born: now,
+        ttl: reduced ? Infinity : 6500 + Math.random() * 4000,
+        hostile,
+        contact: c,
+      });
+      if (blips.length > 9) blips.shift();
+      setContact({ ...c, hostile });
+    };
+
+    const draw = (now) => {
+      if (!reduced) raf = requestAnimationFrame(draw);
+      if (!visible) return;
+
+      const accent = css("--accent") || "#e05252";
+      const signal = css("--signal") || "#5abf7d";
+      const ruleC = css("--rule-strong") || "rgba(255,255,255,0.25)";
+      const cx = W / 2, cy = H / 2;
+      const R = Math.min(W, H) / 2 - 18;
+
+      ctx.clearRect(0, 0, W, H);
+
+      // rings + spokes
+      ctx.strokeStyle = ruleC;
+      ctx.lineWidth = 1;
+      [0.25, 0.5, 0.75, 1].forEach(f => {
+        ctx.beginPath();
+        ctx.setLineDash(f === 1 ? [] : [2, 6]);
+        ctx.arc(cx, cy, R * f, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+      ctx.setLineDash([]);
+      for (let a = 0; a < Math.PI * 2; a += Math.PI / 4) {
+        ctx.beginPath();
+        ctx.globalAlpha = 0.35;
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+
+      const sweep = reduced ? -Math.PI / 3 : (now / 1400) % (Math.PI * 2);
+
+      if (!reduced) {
+        // sweep trail
+        const trail = ctx.createConicGradient
+          ? ctx.createConicGradient(sweep - 0.02, cx, cy)
+          : null;
+        if (trail) {
+          trail.addColorStop(0, "rgba(224,82,82,0.28)");
+          trail.addColorStop(0.12, "rgba(224,82,82,0.0)");
+          trail.addColorStop(1, "rgba(224,82,82,0)");
+          ctx.fillStyle = trail;
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, R, sweep - 1.2, sweep + 0.02);
+          ctx.closePath();
+          ctx.fill();
+        }
+        // sweep edge
+        ctx.strokeStyle = accent;
+        ctx.globalAlpha = 0.9;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(sweep) * R, cy + Math.sin(sweep) * R);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+
+        if (now - lastSpawn > 1900 + Math.random() * 600) {
+          lastSpawn = now;
+          spawn(now);
+        }
+      } else if (!blips.length) {
+        // static scene for reduced motion
+        for (let i = 0; i < 4; i++) spawn(now);
+      }
+
+      // blips
+      blips = blips.filter(b => now - b.born < b.ttl);
+      blips.forEach(b => {
+        const age = b.ttl === Infinity ? 0.3 : (now - b.born) / b.ttl;
+        const px = cx + Math.cos(b.angle) * R * b.dist;
+        const py = cy + Math.sin(b.angle) * R * b.dist;
+        const col = b.hostile ? accent : signal;
+        const alpha = age < 0.1 ? age / 0.1 : 1 - Math.max(0, (age - 0.6) / 0.4);
+
+        // ping ring
+        if (!reduced) {
+          const ring = (now - b.born) % 1800 / 1800;
+          ctx.strokeStyle = col;
+          ctx.globalAlpha = alpha * (1 - ring) * 0.6;
+          ctx.beginPath();
+          ctx.arc(px, py, 4 + ring * 16, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = col;
+        ctx.beginPath();
+        ctx.arc(px, py, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.font = "9px 'JetBrains Mono', monospace";
+        ctx.fillStyle = col;
+        ctx.globalAlpha = alpha * 0.9;
+        ctx.fillText(b.contact.id, px + 8, py + 3);
+        ctx.globalAlpha = 1;
+      });
+    };
+
+    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: 0.05 });
+    io.observe(wrap);
+
+    raf = requestAnimationFrame(draw);
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); };
+  }, [reduced]);
+
+  return (
+    <div ref={wrapRef} className="radar-wrap">
+      <canvas ref={canvasRef} aria-label="Decorative SOC radar sweep" />
+      <div className="radar-readout mono">
+        {contact ? (
+          <>
+            <span style={{ color: contact.hostile ? "var(--accent)" : "var(--signal)" }}>
+              {contact.hostile ? "▲ CONTACT" : "● BENIGN"}
+            </span>
+            <span style={{ color: "var(--ink)" }}> {contact.id}</span>
+            <span style={{ color: "var(--ink-dim)" }}> · {contact.label}</span>
+          </>
+        ) : (
+          <span style={{ color: "var(--ink-mute)" }}>SWEEPING SECTOR…</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ────────────────────────────────────────────────────────────
+// LiveOpsFeed — endlessly streaming SOC activity log. New lines
+// type themselves in with live timestamps; the feed pauses when
+// scrolled out of view.
+// ────────────────────────────────────────────────────────────
+const FEED_POOL = [
+  { tag: "OK",  tone: "signal", text: "Sigma rule pack synced — 312 detections active across Splunk indexes." },
+  { tag: "DET", tone: "blue",   text: "CrowdStrike Falcon flagged anomalous LSASS access on WKS-0417 — auto-contained." },
+  { tag: "OK",  tone: "signal", text: "Tenable scan complete: 0 new criticals across 512 assets." },
+  { tag: "INC", tone: "accent", text: "Credential-stuffing burst on client VPN — locked out 14 accounts, IR opened." },
+  { tag: "REV", tone: "amber",  text: "Reviewing Proofpoint TAP verdicts — 3 phish chains mapped to T1566.002." },
+  { tag: "OK",  tone: "signal", text: "Atomic Red Team T1059.001 regression passed — detection fired in 1.2s." },
+  { tag: "DET", tone: "blue",   text: "Stellar Cyber XDR correlated 5 IOCs to a single campaign — case auto-merged." },
+  { tag: "OK",  tone: "signal", text: "MTTD trend: ↓ 30% quarter-over-quarter after correlation-search tuning." },
+  { tag: "REV", tone: "amber",  text: "Purple sprint #14: Caldera op vs. new EDR policy — 2 gaps found, rules drafted." },
+  { tag: "INC", tone: "accent", text: "Beaconing to known C2 ASN caught by Suricata — host isolated in 4 min." },
+  { tag: "OK",  tone: "signal", text: "PCI DSS evidence pack generated for hospitality client — zero findings." },
+  { tag: "DET", tone: "blue",   text: "Impossible-travel login (T1078) — MFA challenge enforced, session revoked." },
+  { tag: "OK",  tone: "signal", text: "HIPAA DLP policy blocked outbound PHI attachment — sender coached." },
+  { tag: "REV", tone: "amber",  text: "Threat-intel diff: 41 new IOCs ingested, 7 retro-hunt hits triaged." },
+  { tag: "OK",  tone: "signal", text: "Nightly ART run: 96% technique coverage holding in CI." },
+];
+
+function LiveOpsFeed({ maxLines = 8 }) {
+  const [lines, setLines] = useState(() => {
+    const now = new Date();
+    return FEED_POOL.slice(0, 4).map((l, i) => ({ ...l, ts: new Date(now - (4 - i) * 47000), key: `seed-${i}` }));
+  });
+  const wrapRef = useRef(null);
+  const idxRef = useRef(4);
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    let visible = true, timer = null;
+    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: 0.05 });
+    if (wrapRef.current) io.observe(wrapRef.current);
+
+    const push = () => {
+      if (visible) {
+        const l = FEED_POOL[idxRef.current % FEED_POOL.length];
+        idxRef.current += 1;
+        setLines(prev => [...prev.slice(-(maxLines - 1)), { ...l, ts: new Date(), key: `${Date.now()}` }]);
+      }
+      timer = setTimeout(push, 2600 + Math.random() * 2400);
+    };
+    timer = setTimeout(push, 1800);
+    return () => { clearTimeout(timer); io.disconnect(); };
+  }, [maxLines]);
+
+  const fmt = (d) => {
+    const p = (n) => String(n).padStart(2, "0");
+    return `${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())}Z`;
+  };
+
+  return (
+    <div ref={wrapRef} className="ops-feed mono" aria-live="off">
+      {lines.map((l) => (
+        <div key={l.key} className="ops-line">
+          <span className="ops-ts">{fmt(l.ts)}</span>
+          <span className={`ops-tag tone-${l.tone}`}>[{l.tag}]</span>
+          <span className="ops-text">{l.text}</span>
+        </div>
+      ))}
+      <div className="ops-line ops-cursor-line">
+        <span className="ops-ts">{"--:--:--"}</span>
+        <span className="ops-tag" style={{ color: "var(--ink-mute)" }}>[..]</span>
+        <span className="ops-text" style={{ color: "var(--ink-mute)" }}>listening<span className="caret" /></span>
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { MitreMatrix, NetworkGraph, ThreatRadar, LiveOpsFeed });
