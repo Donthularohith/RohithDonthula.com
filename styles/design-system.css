@@ -379,17 +379,17 @@ body[data-mode="recruiter"] .panel-h {
 }
 .section-head h2 .accent { color: var(--accent); }
 
-/* Reveal-on-scroll — long expo ease + focus-pull blur for a fluid entrance */
+/* Reveal-on-scroll — long expo ease for a fluid entrance.
+   (No filter blur here: blurring large text panels is GPU-expensive and
+   made simultaneous animations — e.g. brief.md's declassify bars — stutter.) */
 .reveal {
   opacity: 0;
   transform: translateY(26px);
-  filter: blur(6px);
   transition:
     opacity 950ms cubic-bezier(.16,1,.3,1),
-    transform 950ms cubic-bezier(.16,1,.3,1),
-    filter 950ms cubic-bezier(.16,1,.3,1);
+    transform 950ms cubic-bezier(.16,1,.3,1);
 }
-.reveal.in { opacity: 1; transform: none; filter: none; }
+.reveal.in { opacity: 1; transform: none; }
 
 /* Marquee */
 .marquee {
@@ -465,7 +465,8 @@ body[data-cursor="on"] a, body[data-cursor="on"] button, body[data-cursor="on"] 
   border-radius: 2px;
   transform-origin: right center;
   transform: scaleX(1);
-  transition: transform 700ms cubic-bezier(.65,0,.35,1);
+  transition: transform 560ms cubic-bezier(.65,0,.35,1);
+  will-change: transform;
   pointer-events: none;
 }
 .redacted.declassified::after { transform: scaleX(0); }

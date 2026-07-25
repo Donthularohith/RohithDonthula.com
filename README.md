@@ -89,9 +89,7 @@ Three roles, in this order:
 - MS Cybersecurity, Yeshiva University (completed May 2026)
 - CompTIA PenTest+, CySA+, Security+
 - IIIT Bangalore Cybersecurity (2023–2024)
-- Tata Group Cybersecurity Job Simulation
 - Google Cybersecurity Professional
-- B.Tech CSE, Malla Reddy Institute of Technology (2019–2023)
 
 ### Projects, Testimonials, News
 All in `components/data.jsx`. Testimonials and news titles are placeholders — swap with real content before launch.

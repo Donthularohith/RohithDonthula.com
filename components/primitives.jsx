@@ -288,6 +288,8 @@ function Redacted({ children, delay = 0, style }) {
     const el = ref.current;
     if (!el) return;
     if (prefersReducedMotion()) { el.classList.add("declassified"); return; }
+    // Fire early (any sliver visible) so the bars have wiped by the time
+    // the paragraph is actually being read — matters with inertia scrolling.
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -295,7 +297,7 @@ function Redacted({ children, delay = 0, style }) {
           obs.unobserve(el);
         }
       });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.05, rootMargin: "0px 0px -5% 0px" });
     obs.observe(el);
     return () => obs.disconnect();
   }, [delay]);

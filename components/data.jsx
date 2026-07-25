@@ -158,9 +158,7 @@ const CERTS = [
   { year: "2024", name: "CompTIA CySA+ (Security Analytics)", issuer: "CompTIA · CS0-003", status: "achieved", verify: CREDLY_URL },
   { year: "2024", name: "CompTIA Security+ CE", issuer: "CompTIA · SY0-701", status: "achieved", verify: CREDLY_URL },
   { year: "2024", name: "Cybersecurity Coursework", issuer: "IIIT Bangalore · Aug 2023 – Mar 2024", status: "achieved" },
-  { year: "2023", name: "Tata Group Cybersecurity Analyst — Job Simulation", issuer: "Forage", status: "achieved" },
   { year: "2023", name: "Google Cybersecurity Professional", issuer: "Coursera · Foundations + Manage Risks + Tools of the Trade", status: "achieved" },
-  { year: "2023", name: "B.Tech Computer Science & Engineering", issuer: "Malla Reddy Institute of Technology · Jun 2019 – Jul 2023", status: "achieved" },
 ];
 
 Object.assign(window, { PROJECTS, EXPERIENCE, CERTS, CREDLY_URL });
