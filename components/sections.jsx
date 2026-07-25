@@ -173,7 +173,7 @@ function buildTerminalCommands(navigate) {
     whoami: () => ["guest@rd-0001 — clearance: PUBLIC", "subject: Rohith Donthula — Purple-Team Cybersecurity Analyst"],
     about: () => [
       "Purple-team analyst — MS Cybersecurity, Yeshiva University (2026).",
-      "CompTIA Security+ and CySA+ certified. Currently SOC analyst at SecVal MSSP.",
+      "CompTIA Security+, CySA+, and PenTest+ certified. Currently SOC analyst at SecVal MSSP.",
       "Principle: attack what you build, build what survives the attack.",
     ],
     ls: () => ["about/  experience/  projects/  capabilities/  record/  contact/"],

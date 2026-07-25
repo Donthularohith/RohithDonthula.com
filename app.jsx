@@ -180,7 +180,7 @@ function Hero() {
             <div className="hero-creds">
               <div className="cred tilt-in" style={{ animationDelay: "0ms" }}>
                 <div className="mono" style={{ fontSize: 10, letterSpacing: "0.16em", color: "var(--ink-mute)" }}>VERIFIED</div>
-                <div className="mono" style={{ fontSize: 13, color: "var(--ink)", marginTop: 4 }}>Security+ · CySA+</div>
+                <div className="mono" style={{ fontSize: 13, color: "var(--ink)", marginTop: 4 }}>Security+ · CySA+ · PenTest+</div>
               </div>
               <div className="cred tilt-in" style={{ animationDelay: "70ms" }}>
                 <div className="mono" style={{ fontSize: 10, letterSpacing: "0.16em", color: "var(--ink-mute)" }}>FIELD</div>
@@ -275,7 +275,7 @@ function About() {
           <Reveal>
             <Panel title="brief.md" corners>
               <Redacted style={{ fontSize: 18, lineHeight: 1.55, color: "var(--ink)" }}>
-                I'm a <span style={{ color: "var(--accent)" }}>purple-team analyst</span> holding an <span style={{ color: "var(--accent)" }}>MS in Cybersecurity from Yeshiva University</span> (May 2026), CompTIA <span style={{ color: "var(--accent)" }}>Security+</span> and <span style={{ color: "var(--accent)" }}>CySA+</span> certified. My work runs on a single principle: <em>attack what you build, build what survives the attack.</em>
+                I'm a <span style={{ color: "var(--accent)" }}>purple-team analyst</span> holding an <span style={{ color: "var(--accent)" }}>MS in Cybersecurity from Yeshiva University</span> (May 2026), CompTIA <span style={{ color: "var(--accent)" }}>Security+</span>, <span style={{ color: "var(--accent)" }}>CySA+</span>, and <span style={{ color: "var(--accent)" }}>PenTest+</span> certified. My work runs on a single principle: <em>attack what you build, build what survives the attack.</em>
               </Redacted>
               <Redacted delay={180} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
                 Currently a SOC analyst at <span style={{ color: "var(--ink)" }}>SecVal MSSP</span> — running Stellar Cyber Open XDR and CrowdStrike Falcon for hospitality clients under PCI DSS, correlating IOCs and TTPs against MITRE ATT&CK, and tuning detections to kill false-positive noise. I split my day between the red side (emulating adversary behavior with Atomic Red Team / Caldera, attacking my own Sigma rules) and the blue side (hardening detections, closing coverage gaps, regressing them in CI).

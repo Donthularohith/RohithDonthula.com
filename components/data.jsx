@@ -146,6 +146,7 @@ const EXPERIENCE = [
 ];
 
 const CERTS = [
+  { year: "2026", name: "CompTIA PenTest+", issuer: "CompTIA · PT0-003 · Penetration Testing", status: "achieved" },
   { year: "2026", name: "MS Cybersecurity", issuer: "Yeshiva University · Aug 2024 – May 2026", status: "achieved" },
   { year: "2024", name: "CompTIA CySA+ (Security Analytics)", issuer: "CompTIA · CSAP Stackable", status: "achieved" },
   { year: "2024", name: "CompTIA Security+ CE", issuer: "CompTIA · SY0-701", status: "achieved" },

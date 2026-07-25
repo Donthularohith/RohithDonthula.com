@@ -75,7 +75,7 @@ Each section is one element in `app.jsx`. Order is fixed; copy is final.
 ### Subject Brief (`brief.md`)
 Three paragraphs — see `app.jsx` `About()` for exact copy. Key claims:
 - MS Cybersecurity at Yeshiva University (completed May 2026)
-- CompTIA Security+ and CySA+ certified
+- CompTIA Security+, CySA+, and PenTest+ certified
 - Currently SOC analyst at SecVal MSSP
 - Ex‑Cerner Healthcare, Ex‑Capgemini
 
@@ -87,7 +87,7 @@ Three roles, in this order:
 
 ### Education / Certs (in `components/data.jsx` → `CERTS`)
 - MS Cybersecurity, Yeshiva University (completed May 2026)
-- CompTIA CySA+, Security+
+- CompTIA PenTest+, CySA+, Security+
 - IIIT Bangalore Cybersecurity (2023–2024)
 - Tata Group Cybersecurity Job Simulation
 - Google Cybersecurity Professional
