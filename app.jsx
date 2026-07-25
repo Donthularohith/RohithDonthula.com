@@ -188,7 +188,7 @@ function Hero() {
               </div>
               <div className="cred tilt-in" style={{ animationDelay: "140ms" }}>
                 <div className="mono" style={{ fontSize: 10, letterSpacing: "0.16em", color: "var(--ink-mute)" }}>STATION</div>
-                <div className="mono" style={{ fontSize: 13, color: "var(--ink)", marginTop: 4 }}>Jersey City, NJ</div>
+                <div className="mono" style={{ fontSize: 13, color: "var(--ink)", marginTop: 4 }}>New York City, NY</div>
               </div>
             </div>
           </Reveal>
@@ -561,7 +561,7 @@ function FooterStrip() {
           © 2026 ROHITH DONTHULA · ALL RIGHTS RESERVED
         </div>
         <div className="mono" style={{ fontSize: 10, letterSpacing: "0.22em", color: "var(--ink-mute)" }}>
-          BUILT WITH RIGOR · MAINTAINED IN <span style={{ color: "var(--accent)" }}>JERSEY CITY</span>
+          BUILT WITH RIGOR · MAINTAINED IN <span style={{ color: "var(--accent)" }}>NEW YORK CITY</span>
         </div>
         <div className="mono" style={{ fontSize: 10, letterSpacing: "0.22em", color: "var(--ink-mute)" }}>
           END OF TRANSMISSION
