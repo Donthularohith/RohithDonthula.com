@@ -173,7 +173,7 @@ function Hero() {
 
           <div className="hero-cta">
             <Magnetic><a className="btn btn-primary" href="#projects">› View Operations</a></Magnetic>
-            <Magnetic><a className="btn" href="resume.pdf" target="_blank" rel="noreferrer">Download CV ↓</a></Magnetic>
+            <Magnetic><a className="btn" href="public/resume.pdf" target="_blank" rel="noreferrer">Download CV ↓</a></Magnetic>
           </div>
 
           <Reveal delay={200}>
