@@ -52,7 +52,7 @@ React (production UMD) and Babel standalone are self-hosted from `vendor/` — n
 Each section is one element in `app.jsx`. Order is fixed; copy is final.
 
 1. **ClassifiedHeader** — top bar. Mono caption: `DOSSIER #882‑991 · DEPT/CYBERSEC · TLP:AMBER · RD‑0001`. Right‑side nav links to anchors.
-2. **Hero** — split layout: left = oversized name, role, lede, CTAs; right = "dossier card" with photo, crosshair overlay, KV table (Subject, Discipline, Specialization, Sector, Education, Status), 4‑up stat strip (4+ yrs, 30% MTTD, 75% forensics, 100% audits). The dossier card title (`dossier://subject/RD-0001`) uses the `<TypeURL>` component — scrambles in, types out, blinks caret, re‑runs every 6s.
+2. **Hero** — split layout: left = oversized name, role, lede, CTAs; right = "dossier card" with photo, crosshair overlay, KV table (Subject, Discipline, Specialization, Sector, Education, Status), 4‑up stat strip (3+ yrs, 30% MTTD, 75% forensics, 100% audits). The dossier card title (`dossier://subject/RD-0001`) uses the `<TypeURL>` component — scrambles in, types out, blinks caret, re‑runs every 6s.
 3. **BriefMarquee (variant a)** — horizontally scrolling mono ticker (`INTELLIGENCE GATHERED · AUDIT COMPLETE · ...`).
 4. **About** — `001 / Subject Brief`. Three‑paragraph `brief.md` panel (purple‑team positioning) + side panel with Frameworks, Field Achievements, Education.
 5. **ExperienceSection** — `002 / Service Record`. Timeline with active‑node pulse. Three roles (see Content section below).

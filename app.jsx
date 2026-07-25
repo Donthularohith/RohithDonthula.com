@@ -224,7 +224,7 @@ function Hero() {
           <Reveal delay={260}>
             <div className="dossier-strip">
               <div className="tilt-in" style={{ animationDelay: "0ms" }}>
-                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}><CountUp value="4+" /></div>
+                <div className="mono" style={{ fontSize: 22, letterSpacing: "-0.02em", color: "var(--ink)" }}><CountUp value="3+" /></div>
                 <div className="mono" style={{ fontSize: 9, letterSpacing: "0.18em", color: "var(--ink-mute)", marginTop: 4 }}>YRS FIELD</div>
               </div>
               <div className="tilt-in" style={{ animationDelay: "60ms" }}>
