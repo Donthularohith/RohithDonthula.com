@@ -164,7 +164,7 @@ function Hero() {
           </h1>
 
           <div className="hero-roles mono">
-            <Typewriter text="// PURPLE TEAM · DETECTION ENGINEERING · ADVERSARY EMULATION · INCIDENT RESPONSE · CLOUD SECURITY" speed={18} />
+            <Typewriter text="// PURPLE TEAM · DETECTION ENGINEERING · ADVERSARY EMULATION · AI SECURITY · INCIDENT RESPONSE · CLOUD SECURITY" speed={18} />
           </div>
 
           <p className="hero-lede">
@@ -277,10 +277,13 @@ function About() {
               <Redacted style={{ fontSize: 18, lineHeight: 1.55, color: "var(--ink)" }}>
                 I'm a <span style={{ color: "var(--accent)" }}>purple-team analyst</span> holding an <span style={{ color: "var(--accent)" }}>MS in Cybersecurity from Yeshiva University</span> (May 2026), CompTIA <span style={{ color: "var(--accent)" }}>Security+</span>, <span style={{ color: "var(--accent)" }}>CySA+</span>, and <span style={{ color: "var(--accent)" }}>PenTest+</span> certified. My work runs on a single principle: <em>attack what you build, build what survives the attack.</em>
               </Redacted>
-              <Redacted delay={180} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
+              <Redacted delay={140} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
                 Currently a SOC analyst at <span style={{ color: "var(--ink)" }}>SecVal MSSP</span> — running Stellar Cyber Open XDR and CrowdStrike Falcon for hospitality clients under PCI DSS, correlating IOCs and TTPs against MITRE ATT&CK, and tuning detections to kill false-positive noise. I split my day between the red side (emulating adversary behavior with Atomic Red Team / Caldera, attacking my own Sigma rules) and the blue side (hardening detections, closing coverage gaps, regressing them in CI).
               </Redacted>
-              <Redacted delay={360} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
+              <Redacted delay={280} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
+                My current frontier is <span style={{ color: "var(--accent)" }}>AI security</span> — on both sides of the equation. Defense with AI: folding LLM-assisted triage and enrichment into SOC workflow, and using XDR's ML correlation to surface what rule-based detections miss. Defense of AI: threat-modeling LLM integrations against <span style={{ color: "var(--ink)" }}>OWASP LLM Top 10</span> risks (prompt injection, data exfiltration through model outputs, insecure agent tool-use) and mapping adversarial-ML behavior to <span style={{ color: "var(--ink)" }}>MITRE ATLAS</span> the same way I map intrusions to ATT&CK. As companies wire AI into everything, someone has to red-team it and write detections for it — I intend to be that someone.
+              </Redacted>
+              <Redacted delay={420} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
                 Before SecVal: ten months at <span style={{ color: "var(--ink)" }}>Cerner Healthcare</span> tuning EHR detections under HIPAA — pulled MTTD down ~30% — and three years at <span style={{ color: "var(--ink)" }}>Capgemini</span> hardening SWIFT and payment infrastructure under PCI-DSS / GDPR with zero major audit findings. I gravitate toward messy infrastructure under strict compliance, and I write reports leadership actually reads.
               </Redacted>
             </Panel>
@@ -291,7 +294,7 @@ function About() {
               <div className="about-stat tilt-in" style={{ animationDelay: "0ms" }}>
                 <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "var(--ink-mute)" }}>FRAMEWORKS & ENGAGEMENTS</div>
                 <div className="mono" style={{ marginTop: 8, fontSize: 13, color: "var(--ink)", lineHeight: 1.7 }}>
-                  Purple-team ops · Atomic Red Team · Caldera · MITRE ATT&CK · Stellar Cyber XDR · CrowdStrike Falcon · Splunk · Sigma · Tenable · NIST 800-61 · SOC2 · PCI-DSS · GDPR · HIPAA
+                  Purple-team ops · Atomic Red Team · Caldera · MITRE ATT&CK · MITRE ATLAS · OWASP LLM Top 10 · LLM-assisted triage · Stellar Cyber XDR · CrowdStrike Falcon · Splunk · Sigma · Tenable · NIST 800-61 · SOC2 · PCI-DSS · GDPR · HIPAA
                 </div>
               </div>
               <div className="about-stat tilt-in" style={{ animationDelay: "90ms" }}>
@@ -532,6 +535,7 @@ function Contact() {
                 <ul style={{ margin: "10px 0 0", padding: 0, listStyle: "none", fontSize: 13, lineHeight: 1.8, color: "var(--ink-dim)" }}>
                   <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> Cyber Security Analyst</li>
                   <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> SOC / Threat Hunter</li>
+                  <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> AI Security / LLM Red Team</li>
                   <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> Cloud Security Engineer</li>
                   <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> Detection & Response</li>
                 </ul>

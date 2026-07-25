@@ -191,7 +191,11 @@ function buildTerminalCommands(navigate) {
       `${e.from} – ${e.to}  ${e.role} · ${e.company}`,
     ]),
     projects: () => (window.PROJECTS || []).map((p, i) => `[${String(i + 1).padStart(2, "0")}] ${p.title} — ${p.status}`),
-    skills: () => ["Purple-team ops · Atomic Red Team · Caldera · MITRE ATT&CK · Stellar Cyber XDR · CrowdStrike Falcon · Splunk · Sigma · Tenable · NIST 800-61 · SOC2 · PCI-DSS · GDPR · HIPAA"],
+    skills: () => [
+      "Purple-team ops · Atomic Red Team · Caldera · MITRE ATT&CK · Stellar Cyber XDR",
+      "AI security · MITRE ATLAS · OWASP LLM Top 10 · LLM-assisted triage",
+      "CrowdStrike Falcon · Splunk · Sigma · Tenable · NIST 800-61 · SOC2 · PCI-DSS · GDPR · HIPAA",
+    ],
     certs: () => [
       ...(window.CERTS || []).map(c => `${c.year}  ${c.name}  [${c.status === "achieved" ? "VERIFIED" : "IN PROGRESS"}]`),
       "",
