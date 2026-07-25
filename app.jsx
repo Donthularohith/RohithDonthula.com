@@ -423,7 +423,15 @@ function CertsSection() {
         </div>
 
         <Reveal>
-          <Panel title="certs://timeline" corners>
+          <Panel
+            title="certs://timeline"
+            corners
+            accent={
+              <a href={CREDLY_URL} target="_blank" rel="noreferrer" className="cert-verify" style={{ textTransform: "none" }}>
+                verify://credly ↗
+              </a>
+            }
+          >
             <CertTimeline certs={CERTS} />
           </Panel>
         </Reveal>
@@ -493,6 +501,11 @@ function Contact() {
                 <a href="https://github.com/Donthularohith" target="_blank" rel="noreferrer" className="contact-row">
                   <span className="mono" style={{ color: "var(--ink-mute)", fontSize: 11, letterSpacing: "0.16em", width: 90 }}>GITHUB</span>
                   <span style={{ color: "var(--ink)" }}>/Donthularohith</span>
+                  <span className="mono" style={{ color: "var(--accent)", marginLeft: "auto" }}>→</span>
+                </a>
+                <a href={CREDLY_URL} target="_blank" rel="noreferrer" className="contact-row">
+                  <span className="mono" style={{ color: "var(--ink-mute)", fontSize: 11, letterSpacing: "0.16em", width: 90 }}>CREDLY</span>
+                  <span style={{ color: "var(--ink)" }}>Verify certifications</span>
                   <span className="mono" style={{ color: "var(--accent)", marginLeft: "auto" }}>→</span>
                 </a>
                 <a href="public/resume.pdf" target="_blank" rel="noreferrer" download className="contact-row">

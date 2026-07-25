@@ -472,6 +472,15 @@
 }
 .cert-dot.ok { background: var(--signal); border-color: var(--signal); }
 .cert-dot.pending { background: var(--amber); border-color: var(--amber); }
+.cert-verify {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+  border-bottom: 1px dashed var(--ink-mute);
+  padding-bottom: 1px;
+  transition: color 180ms, border-color 180ms;
+}
+.cert-verify:hover { color: var(--accent); border-color: var(--accent); }
 
 /* ── Contact ──────────────────────────── */
 .contact-grid {

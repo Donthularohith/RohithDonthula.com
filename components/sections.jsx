@@ -130,9 +130,19 @@ function CertTimeline({ certs }) {
             </div>
             <div className="cert-body">
               <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "baseline", flexWrap: "wrap" }}>
-                <div className="mono" style={{ fontSize: 14, color: "var(--ink)" }}>{c.name}</div>
-                <span className={`chip ${c.status === "achieved" ? "chip-signal" : "chip-amber"}`}>
-                  {c.status === "achieved" ? "VERIFIED" : "IN PROGRESS"}
+                <div className="mono" style={{ fontSize: 14, color: "var(--ink)" }}>
+                  {c.name}
+                  {c.stackable && <span className="chip chip-accent" style={{ marginLeft: 10, fontSize: 8, padding: "2px 6px", verticalAlign: "middle" }}>STACKABLE</span>}
+                </div>
+                <span style={{ display: "inline-flex", gap: 8, alignItems: "baseline" }}>
+                  {c.verify && (
+                    <a className="cert-verify mono" href={c.verify} target="_blank" rel="noreferrer">
+                      CREDLY ↗
+                    </a>
+                  )}
+                  <span className={`chip ${c.status === "achieved" ? "chip-signal" : "chip-amber"}`}>
+                    {c.status === "achieved" ? "VERIFIED" : "IN PROGRESS"}
+                  </span>
                 </span>
               </div>
               <div className="mono" style={{ fontSize: 11, color: "var(--ink-mute)", marginTop: 6 }}>
@@ -182,7 +192,11 @@ function buildTerminalCommands(navigate) {
     ]),
     projects: () => (window.PROJECTS || []).map((p, i) => `[${String(i + 1).padStart(2, "0")}] ${p.title} — ${p.status}`),
     skills: () => ["Purple-team ops · Atomic Red Team · Caldera · MITRE ATT&CK · Stellar Cyber XDR · CrowdStrike Falcon · Splunk · Sigma · Tenable · NIST 800-61 · SOC2 · PCI-DSS · GDPR · HIPAA"],
-    certs: () => (window.CERTS || []).map(c => `${c.year}  ${c.name}  [${c.status === "achieved" ? "VERIFIED" : "IN PROGRESS"}]`),
+    certs: () => [
+      ...(window.CERTS || []).map(c => `${c.year}  ${c.name}  [${c.status === "achieved" ? "VERIFIED" : "IN PROGRESS"}]`),
+      "",
+      `verify all badges: ${window.CREDLY_URL || ""}`,
+    ],
     contact: () => [
       "email    donthula.rohith22@gmail.com",
       "phone    (551) 325-9945",

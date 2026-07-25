@@ -594,6 +594,7 @@ const PALETTE_ACTIONS = [
     } },
   { id: "resume", label: "Download resume.pdf", hint: "PDF", run: () => window.open("public/resume.pdf", "_blank") },
   { id: "github", label: "Open GitHub", hint: "/Donthularohith", run: () => window.open("https://github.com/Donthularohith", "_blank") },
+  { id: "credly", label: "Verify certifications on Credly", hint: "badges", run: () => window.open(window.CREDLY_URL || "https://www.credly.com", "_blank") },
   { id: "linkedin", label: "Open LinkedIn", hint: "/in/rohith-donthula", run: () => window.open("https://www.linkedin.com/in/rohith-donthula", "_blank") },
   { id: "replay-boot", label: "Replay boot sequence", hint: "reload", run: () => {
       try { sessionStorage.removeItem("rd_boot_seen"); } catch (e) {}

@@ -145,15 +145,22 @@ const EXPERIENCE = [
   },
 ];
 
+// Single source of truth for badge verification — swap in the exact
+// Credly profile/badge URLs once claimed.
+const CREDLY_URL = "https://www.credly.com/users/rohith-donthula";
+
 const CERTS = [
-  { year: "2026", name: "CompTIA PenTest+", issuer: "CompTIA · PT0-003 · Penetration Testing", status: "achieved" },
+  { year: "2026", name: "CompTIA CNSP — Network Security Professional", issuer: "CompTIA Stackable · Security+ · CySA+ · PenTest+", status: "achieved", verify: CREDLY_URL, stackable: true },
+  { year: "2026", name: "CompTIA CNVP — Network Vulnerability Assessment Professional", issuer: "CompTIA Stackable · Security+ · PenTest+", status: "achieved", verify: CREDLY_URL, stackable: true },
+  { year: "2026", name: "CompTIA PenTest+", issuer: "CompTIA · PT0-003 · Penetration Testing", status: "achieved", verify: CREDLY_URL },
   { year: "2026", name: "MS Cybersecurity", issuer: "Yeshiva University · Aug 2024 – May 2026", status: "achieved" },
-  { year: "2024", name: "CompTIA CySA+ (Security Analytics)", issuer: "CompTIA · CSAP Stackable", status: "achieved" },
-  { year: "2024", name: "CompTIA Security+ CE", issuer: "CompTIA · SY0-701", status: "achieved" },
+  { year: "2024", name: "CompTIA CSAP — Security Analytics Professional", issuer: "CompTIA Stackable · Security+ · CySA+", status: "achieved", verify: CREDLY_URL, stackable: true },
+  { year: "2024", name: "CompTIA CySA+ (Security Analytics)", issuer: "CompTIA · CS0-003", status: "achieved", verify: CREDLY_URL },
+  { year: "2024", name: "CompTIA Security+ CE", issuer: "CompTIA · SY0-701", status: "achieved", verify: CREDLY_URL },
   { year: "2024", name: "Cybersecurity Coursework", issuer: "IIIT Bangalore · Aug 2023 – Mar 2024", status: "achieved" },
   { year: "2023", name: "Tata Group Cybersecurity Analyst — Job Simulation", issuer: "Forage", status: "achieved" },
   { year: "2023", name: "Google Cybersecurity Professional", issuer: "Coursera · Foundations + Manage Risks + Tools of the Trade", status: "achieved" },
   { year: "2023", name: "B.Tech Computer Science & Engineering", issuer: "Malla Reddy Institute of Technology · Jun 2019 – Jul 2023", status: "achieved" },
 ];
 
-Object.assign(window, { PROJECTS, EXPERIENCE, CERTS });
+Object.assign(window, { PROJECTS, EXPERIENCE, CERTS, CREDLY_URL });
