@@ -154,7 +154,7 @@ function Hero() {
           <div className="hero-eyebrow">
             <span className="dot" />
             <span className="mono" style={{ fontSize: 11, letterSpacing: "0.2em", color: "var(--ink-dim)" }}>
-              SUBJECT ACTIVE · TRANSMITTING
+              SUBJECT ACTIVE · CO-FOUNDER <span style={{ color: "var(--accent)" }}>ZHASK</span> · BUILDING KAVEO
             </span>
           </div>
 
@@ -164,11 +164,11 @@ function Hero() {
           </h1>
 
           <div className="hero-roles mono">
-            <Typewriter text="// PURPLE TEAM · DETECTION ENGINEERING · ADVERSARY EMULATION · AI SECURITY · INCIDENT RESPONSE · CLOUD SECURITY" speed={18} />
+            <Typewriter text="// PENETRATION TESTING · PURPLE TEAM · DETECTION ENGINEERING · CLOUD SECURITY · AI SECURITY · INCIDENT RESPONSE" speed={18} />
           </div>
 
           <p className="hero-lede">
-            I run <span className="under">purple-team</span> ops — emulating adversaries (red) and hardening detections against them (blue) in the same sprint. Currently securing <span className="under">healthcare EHR</span> infrastructure at Cerner; previously hardened banking pipelines at Capgemini. MS Cybersecurity, Yeshiva University — <span style={{color:"var(--accent)"}}>graduated May 2026.</span>
+            I <span className="under">attack systems</span>, <span className="under">build the detections</span> that catch the attack, and now <span className="under">ship the product</span> that does both. Co-founder of <span style={{color:"var(--accent)"}}>Zhask</span>, where I architected <span style={{color:"var(--accent)"}}>kaveo</span> — an AI-native cloud security platform with 96 deterministic detectors and zero AI agents on the detection path. 3+ years across banking pentest, healthcare purple team, and MSSP SOC. MS Cybersecurity, Yeshiva University.
           </p>
 
           <div className="hero-cta">
@@ -184,7 +184,7 @@ function Hero() {
               </div>
               <div className="cred tilt-in" style={{ animationDelay: "70ms" }}>
                 <div className="mono" style={{ fontSize: 10, letterSpacing: "0.16em", color: "var(--ink-mute)" }}>FIELD</div>
-                <div className="mono" style={{ fontSize: 13, color: "var(--ink)", marginTop: 4 }}>Purple Team</div>
+                <div className="mono" style={{ fontSize: 13, color: "var(--ink)", marginTop: 4 }}>Offense · Defense · Cloud</div>
               </div>
               <div className="cred tilt-in" style={{ animationDelay: "140ms" }}>
                 <div className="mono" style={{ fontSize: 10, letterSpacing: "0.16em", color: "var(--ink-mute)" }}>STATION</div>
@@ -210,9 +210,10 @@ function Hero() {
               </div>
               <dl className="kv" style={{ marginTop: 18 }}>
                 <dt>Subject</dt><dd>Rohith Donthula</dd>
-                <dt>Discipline</dt><dd>Cybersecurity / Purple Team</dd>
-                <dt>Specialization</dt><dd>Detection Eng · Adversary Emulation · IR</dd>
-                <dt>Sector</dt><dd>Healthcare · Financial Services</dd>
+                <dt>Discipline</dt><dd>Offensive Security · Detection Engineering</dd>
+                <dt>Specialization</dt><dd>Pentest · Purple Team · Cloud &amp; AI Security</dd>
+                <dt>Venture</dt><dd>Co-Founder, Zhask — kaveo</dd>
+                <dt>Sector</dt><dd>Healthcare · Financial Services · Cloud</dd>
                 <dt>Education</dt><dd>MS Cybersecurity · Yeshiva (2026)</dd>
                 <dt>Status</dt><dd><span className="dot" style={{ marginRight: 8, verticalAlign: "middle" }} />Operational · On Active Engagement</dd>
               </dl>
@@ -268,23 +269,26 @@ function About() {
       <div className="shell">
         <div className="section-head">
           <div className="num">001 / Subject Brief</div>
-          <GlitchHeading>Bridging offensive insight with <span className="accent">defensive engineering.</span></GlitchHeading>
+          <GlitchHeading>I break it, I detect it, <span className="accent">I ship the thing that does both.</span></GlitchHeading>
         </div>
 
         <div className="about-grid">
           <Reveal>
             <Panel title="brief.md" corners>
               <Redacted style={{ fontSize: 18, lineHeight: 1.55, color: "var(--ink)" }}>
-                I'm a <span style={{ color: "var(--accent)" }}>purple-team analyst</span> holding an <span style={{ color: "var(--accent)" }}>MS in Cybersecurity from Yeshiva University</span> (May 2026), CompTIA <span style={{ color: "var(--accent)" }}>Security+</span>, <span style={{ color: "var(--accent)" }}>CySA+</span>, and <span style={{ color: "var(--accent)" }}>PenTest+</span> certified. My work runs on a single principle: <em>attack what you build, build what survives the attack.</em>
+                Most security people pick a side. I've worked all three: I <span style={{ color: "var(--accent)" }}>break systems</span>, I <span style={{ color: "var(--accent)" }}>build the detections</span> that catch the break, and as <span style={{ color: "var(--accent)" }}>co-founder of Zhask</span> I now ship the product that does both. <span style={{ color: "var(--accent)" }}>MS Cybersecurity, Yeshiva University</span>; CompTIA <span style={{ color: "var(--accent)" }}>Security+</span>, <span style={{ color: "var(--accent)" }}>CySA+</span>, and <span style={{ color: "var(--accent)" }}>PenTest+</span>. One principle: <em>attack what you build, build what survives the attack.</em>
               </Redacted>
-              <Redacted delay={140} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
-                Currently a SOC analyst at <span style={{ color: "var(--ink)" }}>SecVal MSSP</span> — running Stellar Cyber Open XDR and CrowdStrike Falcon for hospitality clients under PCI DSS, correlating IOCs and TTPs against MITRE ATT&CK, and tuning detections to kill false-positive noise. I split my day between the red side (emulating adversary behavior with Atomic Red Team / Caldera, attacking my own Sigma rules) and the blue side (hardening detections, closing coverage gaps, regressing them in CI).
+              <Redacted delay={120} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
+                <span style={{ color: "var(--ink)" }}>The offensive foundation.</span> Three years at <span style={{ color: "var(--ink)" }}>Capgemini</span> testing enterprise banking infrastructure — network and web/API penetration testing with Burp Suite and Metasploit, manually validating exploitability before anything was rated or remediated instead of shipping a scanner dump. I proved an AWS IAM privilege-escalation path in a controlled attack rather than just flagging the permission, and hardened Palo Alto policy by attacking it until I found where it actually leaked. A pentest is not a list of vulnerabilities; it is a demonstrated path to impact.
               </Redacted>
-              <Redacted delay={280} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
-                My current frontier is <span style={{ color: "var(--accent)" }}>AI security</span> — on both sides of the equation. Defense with AI: folding LLM-assisted triage and enrichment into SOC workflow, and using XDR's ML correlation to surface what rule-based detections miss. Defense of AI: threat-modeling LLM integrations against <span style={{ color: "var(--ink)" }}>OWASP LLM Top 10</span> risks (prompt injection, data exfiltration through model outputs, insecure agent tool-use) and mapping adversarial-ML behavior to <span style={{ color: "var(--ink)" }}>MITRE ATLAS</span> the same way I map intrusions to ATT&CK. As companies wire AI into everything, someone has to red-team it and write detections for it — I intend to be that someone.
+              <Redacted delay={240} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
+                <span style={{ color: "var(--ink)" }}>The defender's view.</span> Purple team at <span style={{ color: "var(--ink)" }}>Cerner Healthcare</span> under HIPAA — emulating adversary TTPs and hardening detections in the same sprint, pulling MTTD down ~30%. Now SOC at <span style={{ color: "var(--ink)" }}>SecVal MSSP</span> on Stellar Cyber Open XDR and CrowdStrike Falcon under PCI DSS: correlating IOCs and TTPs to MITRE ATT&CK, running controlled credential-dumping and lateral-movement chains, and tuning the rules until the signal survives contact with reality. Knowing exactly what defenders see is what makes my offensive work sharper.
               </Redacted>
-              <Redacted delay={420} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
-                Before SecVal: ten months at <span style={{ color: "var(--ink)" }}>Cerner Healthcare</span> tuning EHR detections under HIPAA — pulled MTTD down ~30% — and three years at <span style={{ color: "var(--ink)" }}>Capgemini</span> hardening SWIFT and payment infrastructure under PCI-DSS / GDPR with zero major audit findings. I gravitate toward messy infrastructure under strict compliance, and I write reports leadership actually reads.
+              <Redacted delay={360} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
+                <span style={{ color: "var(--ink)" }}>The builder.</span> At <span style={{ color: "var(--accent)" }}>Zhask</span> I architected <span style={{ color: "var(--accent)" }}>kaveo</span> — an AI-native cloud security platform built on an unfashionable thesis: <em>determinism finds the truth, AI has to show its work.</em> 96 deterministic detectors and 43 read-only AWS collectors do the finding, with <span style={{ color: "var(--ink)" }}>zero AI agents on the detection path</span>. The AI layer only prioritizes, explains, and remediates — and every claim is a (text, citation) pair checked against an immutable evidence ledger, dropped before storage if it can't cite its proof. Self-hosted, zero-egress, with a native MCP server so a customer's own agents get read-only, cited access.
+              </Redacted>
+              <Redacted delay={480} style={{ marginTop: 16, color: "var(--ink-dim)", lineHeight: 1.65 }}>
+                <span style={{ color: "var(--ink)" }}>Where this is going.</span> <span style={{ color: "var(--accent)" }}>AI security</span>, both directions: defending <em>with</em> AI (LLM-assisted triage and enrichment that cites its sources) and defending <em>AI itself</em> — threat-modeling LLM and agent integrations against the <span style={{ color: "var(--ink)" }}>OWASP LLM Top 10</span> (prompt injection, exfiltration through model outputs, insecure agent tool-use) and mapping adversarial-ML behavior to <span style={{ color: "var(--ink)" }}>MITRE ATLAS</span> the way I map intrusions to ATT&CK. Companies are wiring AI into everything. Someone has to red-team it and write the detections — I've already started.
               </Redacted>
             </Panel>
           </Reveal>
@@ -294,12 +298,16 @@ function About() {
               <div className="about-stat tilt-in" style={{ animationDelay: "0ms" }}>
                 <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "var(--ink-mute)" }}>FRAMEWORKS & ENGAGEMENTS</div>
                 <div className="mono" style={{ marginTop: 8, fontSize: 13, color: "var(--ink)", lineHeight: 1.7 }}>
-                  Purple-team ops · Atomic Red Team · Caldera · MITRE ATT&CK · MITRE ATLAS · OWASP LLM Top 10 · LLM-assisted triage · Stellar Cyber XDR · CrowdStrike Falcon · Splunk · Sigma · Tenable · NIST 800-61 · SOC2 · PCI-DSS · GDPR · HIPAA
+                  <span style={{ color: "var(--accent)" }}>OFFENSE</span> — Burp Suite · Metasploit · Nmap · BloodHound · Impacket · Responder · Cobalt Strike · Atomic Red Team · Caldera · OWASP Top 10 / API Top 10<br />
+                  <span style={{ color: "var(--blue)" }}>DEFENSE</span> — Splunk SPL · Sigma · ELK · Stellar Cyber XDR · CrowdStrike Falcon · Snort/Suricata · Cortex XSOAR · NIST 800-61 · EnCase · FTK · Volatility<br />
+                  <span style={{ color: "var(--purple)" }}>CLOUD &amp; AI</span> — AWS IAM graph · Pacu · ScoutSuite · Prowler · CSPM engineering · Okta · SailPoint · CyberArk · MITRE ATLAS · OWASP LLM Top 10 · MCP<br />
+                  <span style={{ color: "var(--ink-mute)" }}>FRAMEWORKS</span> — MITRE ATT&CK · SOC 2 · PCI-DSS · GDPR · HIPAA · NIST · CIS
                 </div>
               </div>
               <div className="about-stat tilt-in" style={{ animationDelay: "90ms" }}>
                 <div className="mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "var(--ink-mute)" }}>FIELD ACHIEVEMENTS</div>
                 <ul style={{ margin: "10px 0 0", paddingLeft: 0, listStyle: "none", color: "var(--ink-dim)", fontSize: 13, lineHeight: 1.7 }}>
+                  <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> Co-founded Zhask · shipped kaveo</li>
                   <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> 2nd · ISACA × Yeshiva CTF</li>
                   <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> Research grant · ZTEV</li>
                   <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> 30% MTTD reduction · Cerner</li>
@@ -533,11 +541,12 @@ function Contact() {
               <div>
                 <div className="mono" style={{ fontSize: 10, letterSpacing: "0.2em", color: "var(--ink-mute)" }}>SEEKING</div>
                 <ul style={{ margin: "10px 0 0", padding: 0, listStyle: "none", fontSize: 13, lineHeight: 1.8, color: "var(--ink-dim)" }}>
-                  <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> Cyber Security Analyst</li>
-                  <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> SOC / Threat Hunter</li>
-                  <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> AI Security / LLM Red Team</li>
+                  <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> Penetration Tester / Offensive Security</li>
+                  <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> Detection Engineer</li>
                   <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> Cloud Security Engineer</li>
-                  <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> Detection & Response</li>
+                  <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> AI Security / LLM Red Team</li>
+                  <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> SOC Analyst / Threat Hunter</li>
+                  <li><span className="mono" style={{ color: "var(--accent)" }}>›</span> Security Engineer (Product)</li>
                 </ul>
               </div>
               <div className="hr" />

@@ -3,6 +3,30 @@
 // Data
 const PROJECTS = [
   {
+    title: "kaveo — AI-Native Cloud Security Platform",
+    subtitle: "Co-Founder, Zhask · Flagship product · Shipping",
+    classification: "FLAGSHIP",
+    status: "BUILDING",
+    stampColor: "accent",
+    objective: "Build the cloud security platform AI can't hallucinate: deterministic ground truth from read-only AWS APIs, an immutable evidence ledger, and a grounded-AI layer where every claim must cite proof — or it is never stored.",
+    outcome: "Self-hosted, zero-egress CSPM/CNAPP with 96 deterministic detectors and 43 AWS collectors. Zero AI agents touch the detection path; the AI layer only prioritizes, explains, and remediates — always cited to stored evidence. Native MCP server exposes read-only, cited findings to the customer's own agents.",
+    steps: [
+      "Designed the collector layer — 43 collectors pulling IAM, network, data and workload config straight from read-only AWS APIs",
+      "Wrote 96 deterministic detectors against resources and the IAM/reachability graph — plain, auditable code, no agents",
+      "Built the immutable observation ledger so every finding ships with its receipts",
+      "Enforced grounded AI in the data model: each claim is a (text, citation) pair; uncited or misciting claims are dropped before storage",
+      "Closed the loop — prioritize by real reachability and blast radius, draft and apply the fix via a scoped write role, re-scan to prove the finding no longer fires",
+      "Added continuous drift/regression watch and a native MCP server for agent-native, read-only access",
+    ],
+    stack: ["AWS", "IAM Graph Analysis", "Deterministic Detection", "Grounded AI / RAG", "MCP", "Self-Hosted", "Python", "Zero-Egress"],
+    metrics: [
+      { value: "96", label: "DETECTORS" },
+      { value: "43", label: "AWS COLLECTORS" },
+      { value: "0", label: "AI AGENTS IN DETECTION" },
+      { value: "300+", label: "AUTOMATED TESTS" },
+    ],
+  },
+  {
     title: "Penetration Testing & Threat Intelligence Capstone",
     subtitle: "Team Lead · IIIT Bangalore · Capstone",
     classification: "TLP:AMBER",
@@ -90,6 +114,24 @@ const PROJECTS = [
 ];
 
 const EXPERIENCE = [
+  {
+    role: "Co-Founder & Security Engineer",
+    company: "Zhask — kaveo",
+    location: "New York City, NY",
+    from: "2025",
+    to: "PRESENT",
+    current: true,
+    bullets: [
+      "Co-founded Zhask and architected kaveo — an AI-native, self-hosted cloud security platform built on a hard rule: determinism finds the truth, AI has to show its work.",
+      "Designed and shipped the detection engine — 96 deterministic detectors and 43 read-only AWS collectors covering exposure, identity, data, logging, network, and secrets across the IAM/reachability graph.",
+      "Built the grounded-AI layer where every model claim is a (text, citation) pair validated against an immutable evidence ledger — uncited or misciting claims are dropped before they are ever stored, enforced in the data model rather than the prompt.",
+      "Kept zero AI agents on the trust-critical detection path while supporting 7 interchangeable providers (Anthropic, Bedrock, OpenAI, Grok, self-hosted Ollama/vLLM, auto-router, offline) with zero-network mode by default.",
+      "Closed the remediation loop end to end — prioritize by real blast radius, apply the fix through a scoped write role, re-scan to prove the finding no longer fires, then watch for drift and regression.",
+      "Shipped a native MCP server giving customer AI agents read-only, cited access to findings — agent-native by design, self-hosted and zero-egress for regulated teams.",
+      "Carried the product across 30+ surfaces with 300+ automated tests, backed by threat modeling against the OWASP LLM Top 10 and MITRE ATLAS.",
+    ],
+    tags: ["Co-Founder", "AWS", "Cloud Security", "AI Security", "Detection Engineering", "MCP", "Grounded AI", "Python", "Self-Hosted"],
+  },
   {
     role: "Security Operations Center Analyst",
     company: "Security Validation | SecVal MSSP",

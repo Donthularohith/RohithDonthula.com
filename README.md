@@ -48,6 +48,21 @@ The prototype ships a coordinated motion layer (all in `components/primitives.js
 
 React (production UMD) and Babel standalone are self-hosted from `vendor/` — no third-party CDN at runtime except Google Fonts.
 
+## Positioning (source of truth for copy)
+The site is written to land for **every role being targeted** — penetration tester, detection engineer, cloud security engineer, AI security / LLM red team, and SOC analyst — rather than one narrow title. The organizing story is a trifecta no single-lane candidate can claim:
+
+> **I break it · I detect it · I ship the thing that does both.**
+
+**Zhask / kaveo is the differentiator.** Rohith is co-founder of **Zhask**, where he architected **kaveo** — an AI-native, self-hosted cloud security platform. Key facts used across the site (hero eyebrow, dossier card, `brief.md`, Experience, Projects, terminal `zhask` command, meta tags):
+- 96 deterministic detectors · 43 read-only AWS collectors
+- **Zero AI agents on the detection path** — determinism finds the truth, AI has to show its work
+- Grounded-AI layer: every claim is a `(text, citation)` pair checked against an immutable evidence ledger; uncited claims are dropped before storage, enforced in the data model not the prompt
+- Verified remediation loop (detect → prioritize → remediate → re-scan to prove → watch for drift)
+- Native MCP server for read-only, cited agent access · 7 interchangeable AI providers · self-hosted, zero-egress
+- 30+ product surfaces · 300+ automated tests
+
+Keep the co-founder thread visible wherever projects or experience are discussed — it is what makes the site unique.
+
 ## Sections (top → bottom)
 Each section is one element in `app.jsx`. Order is fixed; copy is final.
 
